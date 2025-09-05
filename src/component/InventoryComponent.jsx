@@ -277,7 +277,6 @@ export const InventoryComponent = () => {
               type="text"
               className="border w-full border-[#E8E8E8] p-2 placeholder:text-[#87888A] font-semibold text-sm rounded-lg"
               placeholder="Dosage"
-              required
               value={formData?.dosage}
               onChange={(e) =>
                 setFormData({ ...formData, dosage: e.target.value })
