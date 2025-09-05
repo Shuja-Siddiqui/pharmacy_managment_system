@@ -54,7 +54,7 @@ function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
               53- Gulberg III Near Sui Gas Office Guru <br /> 
               Mangat Road Opposite SNGPL Office Lahore
             </p>
-            <p>Ph# 03321639988</p>
+            <p>Ph# 03364214916</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-8">
@@ -117,13 +117,10 @@ function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
           </div>
 
           <div className="text-center text-sm tracking-wider  font-bold">
-            <p>Thank you for your business!</p>
+            <p>Thank you!</p>
             <p>
-              (Computer Software Developed By ConsoleDot <br />{" "}
-              <span className="text-sm text-gray-600">
-                (all right reserved)
-              </span>
-              Ph# 03321639988)
+              (Pharmacy POS Developed By ConsoleDot <br />
+              Ph# 03274067437)
             </p>
           </div>
         </div>
