@@ -14,7 +14,7 @@ export const CreateUserComponent = () => {
 
   // get user function
   const getData = () => {
-    fetch("http://localhost:5001/api/v1/user", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user", {
       headers: {
         "Content-Type": "application/json",
         // Include Authorization header if required
@@ -52,7 +52,7 @@ export const CreateUserComponent = () => {
     const token = localStorage.getItem("token");
     console.log(token);
     e.preventDefault();
-    fetch("http://localhost:5001/api/v1/user", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const CreateUserComponent = () => {
     const { _id, __v, ...rest } = selectItem;
     console.log(token);
     e.preventDefault();
-    fetch(`http://localhost:5001/api/v1/user/${selectItem?._id}`, {
+    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/user/${selectItem?._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export const CreateUserComponent = () => {
   const handleDelete = (e) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch(`http://localhost:5001/api/v1/user/${selectItem?._id}`, {
+    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/user/${selectItem?._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

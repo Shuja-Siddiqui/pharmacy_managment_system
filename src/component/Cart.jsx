@@ -34,7 +34,7 @@ function Cart({
 
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch("http://localhost:5001/api/v1/sale", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

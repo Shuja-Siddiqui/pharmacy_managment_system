@@ -23,7 +23,7 @@ import { FaArrowLeft } from "react-icons/fa";
 //   const navigate = useNavigate();
 
 //   const getProduct = () => {
-//     fetch("http://localhost:5001/api/v1/product", {
+//     fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
 //       method: "GET",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -472,7 +472,7 @@ export const GenerateInvoiceComponent = () => {
   // const [showSalesReport, setShowSalesReport] = useState(false);
   const [medications, setMedications] = useState();
   const getProduct = () => {
-    fetch("http://localhost:5001/api/v1/product", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -498,7 +498,7 @@ export const GenerateInvoiceComponent = () => {
 
   const getDailySaleReports = () => {
     // API call to get daily sales report
-    fetch("http://localhost:5001/api/v1/sale/today", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale/today", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

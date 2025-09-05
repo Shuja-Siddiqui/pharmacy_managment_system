@@ -8,7 +8,7 @@ export const LoginComponent = () => {
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5001/api/v1/user/login", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

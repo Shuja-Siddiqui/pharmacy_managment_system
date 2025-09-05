@@ -10,7 +10,7 @@ export const SalesReportComponent = () => {
   const navigate = useNavigate();
 
   const getDailySaleReports = () => {
-    fetch("http://localhost:5001/api/v1/sale/all", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale/all", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const SalesReportComponent = () => {
       });
   };
   const getReturnProduct = () => {
-    fetch("http://localhost:5001/api/v1/returns", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/returns", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

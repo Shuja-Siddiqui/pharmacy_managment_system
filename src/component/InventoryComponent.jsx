@@ -25,7 +25,7 @@ export const InventoryComponent = () => {
 
   const addCategory = () => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5001/api/v1/category", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export const InventoryComponent = () => {
   };
 
   const getCategory = () => {
-    fetch("http://localhost:5001/api/v1/category", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const InventoryComponent = () => {
   };
 
   const getProduct = () => {
-    fetch("http://localhost:5001/api/v1/product", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export const InventoryComponent = () => {
   const addProduct = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5001/api/v1/product", {
+    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,7 +153,7 @@ export const InventoryComponent = () => {
     const { _id, __v, ...rest } = selectItem;
     console.log(token);
     e.preventDefault();
-    fetch(`http://localhost:5001/api/v1/product/by-id/${selectItem?._id}`, {
+    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/product/by-id/${selectItem?._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +182,7 @@ export const InventoryComponent = () => {
   const handleDelete = (e) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch(`http://localhost:5001/api/v1/product/by-id/${selectItem?._id}`, {
+    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/product/by-id/${selectItem?._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
