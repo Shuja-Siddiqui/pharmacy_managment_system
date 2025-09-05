@@ -124,7 +124,6 @@ function Cart({
             </label>
             <input
               type="tel"
-              required
               value={customerInfo.phone}
               onChange={(e) =>
                 setCustomerInfo((prev) => ({ ...prev, phone: e.target.value }))
