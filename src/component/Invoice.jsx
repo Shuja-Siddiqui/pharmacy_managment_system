@@ -1,16 +1,45 @@
 import React from "react";
 // import { format } from 'date-fns';
 
+// Add print styles
+const printStyles = `
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .invoice-content, .invoice-content * {
+      visibility: visible;
+    }
+    .invoice-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      background: white;
+    }
+  }
+`;
+
 function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
   const printInvoice = () => {
+    // Inject print styles
+    const style = document.createElement('style');
+    style.textContent = printStyles;
+    document.head.appendChild(style);
+    
     window.print();
+    
+    // Remove the style after printing
+    setTimeout(() => {
+      document.head.removeChild(style);
+    }, 1000);
   };
   const today = new Date().toISOString();
   console.log(today);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 print:shadow-none print:p-0">
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4 print:bg-transparent print:p-0 print:fixed print:inset-0 print:z-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 print:shadow-none print:p-0 print:max-w-none print:w-full print:rounded-none">
         <div className="print:hidden flex justify-between mb-6">
           <h2 className="text-2xl font-bold">Invoice</h2>
           <div className="space-x-2">
@@ -29,7 +58,7 @@ function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
           </div>
         </div>
 
-        <div className="print:text-black">
+        <div className="print:text-black invoice-content">
           {/* <div class="bg-white print text-gray-800 flex justify-center flex-col ">
           <div class="text-center">
             <h1 class="bg-blue-800 p-2 text-white  font-bold">Siddiqui Medical Store</h1>
