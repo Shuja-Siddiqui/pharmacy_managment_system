@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import Cart from "./Cart";
-import ProductList from "./ProductList";
-import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+// import React, { useEffect, useRef, useState } from "react";
+// import { toast } from "react-toastify";
+// import Cart from "./Cart";
+// import ProductList from "./ProductList";
+// import { useNavigate } from "react-router-dom";
+// import { FaArrowLeft, FaTrashAlt } from "react-icons/fa";
+// import { FaRegPenToSquare } from "react-icons/fa6";
 
 // export const GenerateInvoiceComponent = () => {
 //   const [product, setProduct] = useState([]);
@@ -96,7 +97,7 @@ import { FaArrowLeft } from "react-icons/fa";
 //   }, [allItem]);
 
 //   const handleQuantityChange = (e, index) => {
-//     const newQuantity = e.target.value;
+//     const newQuantity = e.target?.value;
 //     setAllItem((prev) =>
 //       prev.map((item, i) =>
 //         i === index ? { ...item, quantity: newQuantity } : item
@@ -125,115 +126,147 @@ import { FaArrowLeft } from "react-icons/fa";
 //       (sum, item) => sum + item.price * item.quantity,
 //       0
 //     );
+// const printWindow = window.open("", "", "width=600,height=800");
+// printWindow.document.write(`
+//   <html>
+//     <head>
+//       <title>POS Pharmacy</title>
+//       <style>
+//         /* ✅ Paper size setup */
+//         @page {
+//           size: 80mm 210mm;
+//           margin: 5mm;
+//         }
+//         body {
+//           font-family: Arial, sans-serif;
+//           font-size: 10px;
+//           line-height: 1.3;
+//           width: 72mm;
+//           margin: auto;
+//         }
+//         h1, h2, h3, p {
+//           margin: 2px 0;
+//         }
+//         .header {
+//           background: #000;
+//           color: #fff;
+//           text-align: center;
+//           font-size: 12px;
+//           font-weight: bold;
+//           padding: 2px 0;
+//         }
+//         .shop-info {
+//           font-size: 9px;
+//           margin-top: 4px;
+//         }
+//         .customer {
+//           margin: 8px 0;
+//           font-size: 10px;
+//           font-weight: bold;
+//         }
+//         table {
+//           width: 100%;
+//           border-collapse: collapse;
+//           font-size: 9px;
+//         }
+//         th, td {
+//           border: 1px solid #000;
+//           padding: 2px 3px;
+//           text-align: center;
+//         }
+//         th {
+//           background: #f1f1f1;
+//         }
+//         .summary {
+//           margin-top: 6px;
+//           width: 100%;
+//           border: 1px solid #000;
+//         }
+//         .summary td {
+//           padding: 4px;
+//           text-align: right;
+//           font-size: 10px;
+//         }
+//         .footer {
+//           margin-top: 12px;
+//           font-size: 9px;
+//           text-align: center;
+//           font-weight: bold;
+//         }
+//       </style>
+//     </head>
+//     <body>
 
-//     const printWindow = window.open("", "", "width=600,height=800");
-//     printWindow.document.write(`
-//       <html>
-//         <head>
-//           <style>
-//               .print{
-//               width :300px}
-//             .setWidth { width: 10%; }
-//             table { width: 100%; border-collapse: collapse; }
-//             th { border: 1px solid #ccc; padding: 6px; text-align: center; }
-//             // th { background-color: #f1f1f1; }
-//           </style>
-//           <title>POS Pharmacy</title>
-//           <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-//         </head>
-//         <body class="flex justify-center ">
+//       <div class="header">Siddiqui Medical Store</div>
 
-//         <div class="bg-white print text-gray-800 flex justify-center flex-col ">
-//           <div class="text-center">
-//             <h1 class="bg-blue-800 p-2 text-white  font-bold">Siddiqui Medical Store</h1>
-//           </div>
-//           <div class="w-4/5 flex  justify-between mt-5">
-//             <div class="flex flex-col items-start">
-//               <h1 class="text-md font-bold">53- Gulberg III Near Sui Gas Office Guru Mangat Road Opposite SNGPL Office Lahore </h1>
-//               <h1 class="text-sm font-bold">Phone# </h1>
-//               <h1 class="text-sm font-bold">03364214916,03114572734</h1>
-//               <div class="flex">
-//                 <h1 class="text-sm font-bold flex gap-1">License :<span>490-B/GT/10/2016</span></h1>
-//               </div>
-//             </div>
-//           </div>
+//       <div class="shop-info">
+//         <p>53- Gulberg III Near Sui Gas Office Guru Mangat Road</p>
+//         <p>Opposite SNGPL Office Lahore</p>
+//         <p>Phone#: 03364214916, 03114572734</p>
+//         <p>License No: 490-B/GT/10/2016</p>
+//       </div>
 
-//           <div class="flex flex-col mt-5 ">
-//             <div class="flex items-center gap-1">
-//               <h2 class="text-md font-bold">Customer Name :</h2>
-//               <h3 class="text-gray-500 font-semibold">${
-//                 customerName?.charAt(0)?.toUpperCase() + customerName?.slice(1)
-//               }</h3>
-//             </div>
-//           </div>
+//       <div class="customer">
+//         Customer Name: <span style="text-transform: uppercase;">${customerName}</span>
+//       </div>
 
-//           <div>
-//           <table class=" border-collapse w-full">
-//           <tr class="flex w-full">
-//           <td class="flex justify-start w-1/2 p-1  border border-collapse ">Invoice</td>
-//           <td class="flex justify-end  border p-1 w-1/2 border-collapse ">#234</td>
+//       <table>
+//         <tr>
+//           <td style="text-align:left;">Invoice #</td>
+//           <td style="text-align:right;">#2</td>
+//         </tr>
+//         <tr>
+//           <td style="text-align:left;">Date</td>
+//           <td style="text-align:right;">${new Date().toLocaleDateString()}</td>
+//         </tr>
+//       </table>
+
+//       <table style="margin-top:6px;">
+//         <thead>
+//           <tr>
+//             <th>Sr#</th>
+//             <th>Item</th>
+//             <th>Unit Cost</th>
+//             <th>Qty</th>
+//             <th>Price</th>
 //           </tr>
-//           <tr class="flex w-full">
-//           <td class="flex justify-start w-1/2 p-1 border border-collapse ">Date</td>
-//           <td class="flex justify-end  border p-1 w-1/2 border-collapse ">Invoice</td>
-//           </tr>
-//           </table>
-//           </div>
+//         </thead>
+//         <tbody>
+//           ${allItem.map(
+//             (item, i) => `
+//               <tr>
+//                 <td>${i + 1}</td>
+//                 <td style="text-align:left;">${item.name}</td>
+//                 <td>${item.price}</td>
+//                 <td>${item.quantity}</td>
+//                 <td>${item.price * item.quantity}</td>
+//               </tr>
+//             `
+//           ).join("")}
+//         </tbody>
+//       </table>
 
-//           <div class="mt-6 border">
-//             <table >
-//               <thead>
-//                 <tr>
-//                   <th class="text-sm  setWidth">Sr#</th>
-//                   <th class="text-sm  w-3/5">ITEM</th>
-//                   <th class="text-sm  setWidth">QTY</th>
-//                   <th class="text-sm  setWidth">UNIT PRICE</th>
-//                   <th class="text-sm  setWidth">Total</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 ${allItem
-//                   .map(
-//                     (item, i) => `
-//                     <tr>
-//                       <th class="setWidth bg-white">${i + 1}</>
-//                       <td class="text-sm text-start font-bold">${
-//                         item.name.charAt(0)?.toUpperCase() + item.name?.slice(1)
-//                       }</td>
-//                       <td class="setWidth text-center">${item.quantity}</td>
-//                       <td class="setWidth text-center">${item.price}</td>
-//                       <td class="setWidth text-center">${
-//                         item.price * item.quantity
-//                       }</td>
-//                     </tr>
-//                   `
-//                   )
-//                   .join("")}
-//               </tbody>
-//             </table>
+//       <table class="summary">
+//         <tr>
+//           <td>Subtotal</td>
+//           <td>${subtotal}</td>
+//         </tr>
+//         <tr>
+//           <td><b>Grand Total</b></td>
+//           <td><b>${subtotal}</b></td>
+//         </tr>
+//       </table>
 
-//             <div class="mt-4 w-full flex flex-col gap-1 items-end">
-//               <div class="flex flex-col w-44 h-24 border border-b-0 ">
-//               <div class="h-1/2 w-full flex border-b justify-center  text-center items-center">
-//                 <strong class="w-1/2">Subtotal</strong> <span class="w-1/2">${subtotal}</span>
-//               </div>
-//                  <div class="h-1/2 w-full flex  justify-center  text-center items-center">
-//                 <strong class="w-1/2">Grand Total</strong> <span class="w-1/2">${subtotal}</span>
-//               </div>
-//               </div>
-//             </div>
-//           </div>
+//       <div class="footer">
+//         <p>FRIDGE ITEM & INHALER & LOOSE MEDICINE NON RETURNABLE</p>
+//         <p>(Computer Software Developed by ConsoleDot – Ph# 03321639988)</p>
+//       </div>
 
-//           <div class="flex  flex-col gap-4 mt-24">
-//           <h1 class="font-bold text-sm">FRIDGE ITEM & IHALER & LOOSE MEDICINE NON RETRUNABLE </h1>
-//              <h1 class="font-bold text-sm">
-//              (Computer Software Developed By ConsoleDot <small><i>(all right reserved)</i></small> Ph# 03321639988)
-//               </h1>
-//            </div>
-//         </div>
-//         </body>
-//       </html>
-//     `);
+//     </body>
+//   </html>
+// `);
+
+
 //     printWindow.document.close();
 //     printWindow.print();
 //   };
@@ -464,13 +497,681 @@ import { FaArrowLeft } from "react-icons/fa";
 //     </div>
 //   );
 // };
+// export const GenerateInvoiceComponent = () => {
+//   const [dailySales, setDailySales] = useState([]);
+//   const [cartItems, setCartItems] = useState([]);
+//   const [sales, setSales] = useState([]);
+//   const navigate = useNavigate();
+//   // const [showSalesReport, setShowSalesReport] = useState(false);
+//   const [medications, setMedications] = useState();
+//   const getProduct = () => {
+//     fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//       .then((response) => {
+//         if (response.status === 200 || 201) {
+//           return response.json();
+//         } else {
+//           throw new Error("Failed to get product");
+//         }
+//       })
+//       .then((data) => {
+//         setMedications(data?.data);
+//       })
+//       .catch((error) => {
+//         toast.error(error?.message);
+//       });
+//   };
+//   useEffect(() => {
+//     getProduct();
+//   }, []);
+
+//   const getDailySaleReports = () => {
+//     // API call to get daily sales report
+//     fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale/today", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//       .then((response) => {
+//         if (response.status === 200 || 201) {
+//           return response.json();
+//         } else {
+//           throw new Error("Failed to get product");
+//         }
+//       })
+//       .then((data) => {
+//         setDailySales(data?.data);
+//       })
+//       .catch((error) => {
+//         toast.error(error?.message);
+//       });
+//   };
+//   useEffect(() => {
+//     getDailySaleReports();
+//   }, []);
+//   const addToCart = (product) => {
+//     setCartItems((prevItems) => {
+//       const existingItem = prevItems.find((item) => item._id === product._id);
+//       if (existingItem) {
+//         return prevItems.map((item) =>
+//           item._id === product._id
+//             ? { ...item, quantity: item.quantity + 1 }
+//             : item
+//         );
+//       }
+//       return [...prevItems, { ...product, quantity: 1 }];
+//     });
+//   };
+
+//   const removeFromCart = (productId) => {
+//     setCartItems((prevItems) =>
+//       prevItems.filter((item) => item._id !== productId)
+//     );
+//   };
+
+//   const checkout = (updatedItems, isFinal = true) => {
+//     if (isFinal) {
+//       if (cartItems.length === 0) return;
+
+//       const total = cartItems.reduce(
+//         (sum, item) => sum + item.price * item.quantity,
+//         0
+//       );
+//       const sale = {
+//         date: new Date().toISOString(),
+//         items: [...cartItems],
+//         total,
+//       };
+
+//       setSales((prevSales) => [...prevSales, sale]);
+//       setCartItems([]);
+//     } else {
+//       // Update cart items without completing the sale
+//       setCartItems(updatedItems);
+//     }
+//   };
+//   return (
+//     <div className="min-h-screen bg-gray-100 p-4">
+//       <div className=" flex w-full">
+//         <div
+//           className="h-10 w-12 bg-black p-2 rounded-lg cursor-pointer"
+//           onClick={() => navigate("/dashboard")}
+//         >
+//           {" "}
+//           <FaArrowLeft className=" text-white  w-full h-full " />
+//         </div>
+//         <h1 className="text-3xl ml-[30%] font-bold text-center">
+//           Pharmacy Inventory System
+//         </h1>
+//       </div>
+//       <div className="max-w-7xl mt-10 mx-auto">
+//         {/* <div className="flex justify-between items-center mb-6">
+//           <h1 className="text-3xl font-bold">Pharmacy Inventory System</h1>
+//         </div> */}
+
+//         <div className="flex flex-col w-full gap-4">
+//           <div className=" flex flex-col gap-4 ">
+//             <div className="">
+//               <ProductList addToCart={addToCart} medications={medications} />
+//             </div>
+//             <Cart
+//               items={cartItems}
+//               removeFromCart={removeFromCart}
+//               checkout={checkout}
+//               getProduct={getProduct}
+//               getDailySaleReports={getDailySaleReports}
+//             />
+//             <div className="bg-white p-6 fixed  right-4 bottom-4 rounded-lg shadow w-[30%] h-56">
+//               <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+//                 Today's Sale
+//               </h2>
+//               <div className="flex items-center justify-between">
+//                 <p className="text-xl text-center text-gray-600 font-medium">
+//                   Total Sales:
+//                 </p>
+//                 <p className="text-xl font-bold text-gray-800">
+//                   <span className="text-5xl">{dailySales?.totalSales}</span> Rs
+//                 </p>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+// "use client"
+
+// import { useEffect, useRef, useState } from "react"
+// import { toast } from "react-toastify"
+// import { useNavigate } from "react-router-dom"
+// import { FaArrowLeft, FaTrashAlt, FaSearch, FaPlus } from "react-icons/fa"
+// import { FaRegPenToSquare } from "react-icons/fa6"
+
+// export const GenerateInvoiceComponent = () => {
+//   const [product, setProduct] = useState([])
+//   const [name, setName] = useState("")
+//   const [quantity, setQuantity] = useState(1)
+//   const [discount, setDiscount] = useState(0)
+//   const [price, setPrice] = useState(0)
+//   const [allItem, setAllItem] = useState([])
+//   const [totalPrice, setTotalPrice] = useState(0)
+//   const [editableItemIndex, setEditableItemIndex] = useState(null)
+//   const [customerName, setCustomerName] = useState("")
+//   const [isModal, setIsModal] = useState(false)
+//   const [searchTerm, setSearchTerm] = useState("")
+//   const [filteredProducts, setFilteredProducts] = useState([])
+//   const [isSearchModal, setIsSearchModal] = useState(false)
+//   const editableRefs = useRef([])
+//   const navigate = useNavigate()
+
+//   const getProduct = () => {
+//     fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//       .then((response) => {
+//         if (response.status === 200 || 201) {
+//           return response.json()
+//         } else {
+//           throw new Error("Failed to get product")
+//         }
+//       })
+//       .then((data) => {
+//         setProduct(data?.data || [])
+//       })
+//       .catch((error) => {
+//         toast.error(error?.message)
+//       })
+//   }
+
+//   useEffect(() => {
+//     getProduct()
+//   }, [])
+
+//   const handleSearchChange = (e) => {
+//     const searchValue = e.target.value.toLowerCase()
+//     setSearchTerm(searchValue)
+
+//     if (searchValue) {
+//       const filtered = product.filter((p) => p.name.toLowerCase().includes(searchValue))
+//       setFilteredProducts(filtered)
+//       setIsSearchModal(true)
+//     } else {
+//       setFilteredProducts([])
+//       setIsSearchModal(false)
+//     }
+//   }
+
+//   const handleSelectProduct = (selectedProduct) => {
+//     setName(selectedProduct.name)
+//     setPrice(selectedProduct.price)
+//     setIsSearchModal(false)
+//     setSearchTerm("")
+//   }
+
+//   const addItem = () => {
+//     if ((name && quantity > 0, customerName)) {
+//       setAllItem((prev) => [...prev, { name, quantity, price: Number.parseFloat(price) }])
+//       setName("")
+//       setPrice(0)
+//       setQuantity(1)
+//     } else {
+//       toast("Please fill all input fields correctly", {
+//         bodyClassName: "text-red-500",
+//       })
+//     }
+//   }
+
+//   useEffect(() => {
+//     const total = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+//     setTotalPrice(total)
+//   }, [allItem])
+
+//   const handleQuantityChange = (e, index) => {
+//     const newQuantity = e.target?.value
+//     setAllItem((prev) => prev.map((item, i) => (i === index ? { ...item, quantity: newQuantity } : item)))
+//   }
+
+//   const handleDeleteClick = (index) => {
+//     setAllItem((prev) => prev.filter((_, i) => i !== index))
+//     toast("Item deleted")
+//     setIsModal(false)
+//   }
+
+//   const handleClick = () => {
+//     setCustomerName("")
+//     const subtotal = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+//   }
+
+//   const handleClicku = () => {
+//     setCustomerName("")
+//     const subtotal = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+//     const printWindow = window.open("", "", "width=600,height=800")
+//     printWindow.document.write(`
+//       <html>
+//         <head>
+//           <title>POS Pharmacy</title>
+//           <style>
+//             @page {
+//               size: 80mm 210mm;
+//               margin: 5mm;
+//             }
+//             body {
+//               font-family: Arial, sans-serif;
+//               font-size: 10px;
+//               line-height: 1.3;
+//               width: 72mm;
+//               margin: auto;
+//             }
+//             h1, h2, h3, p {
+//               margin: 2px 0;
+//             }
+//             .header {
+//               background: #000;
+//               color: #fff;
+//               text-align: center;
+//               font-size: 12px;
+//               font-weight: bold;
+//               padding: 2px 0;
+//             }
+//             .shop-info {
+//               font-size: 9px;
+//               margin-top: 4px;
+//             }
+//             .customer {
+//               margin: 8px 0;
+//               font-size: 10px;
+//               font-weight: bold;
+//             }
+//             table {
+//               width: 100%;
+//               border-collapse: collapse;
+//               font-size: 9px;
+//             }
+//             th, td {
+//               border: 1px solid #000;
+//               padding: 2px 3px;
+//               text-align: center;
+//             }
+//             th {
+//               background: #f1f1f1;
+//             }
+//             .summary {
+//               margin-top: 6px;
+//               width: 100%;
+//               border: 1px solid #000;
+//             }
+//             .summary td {
+//               padding: 4px;
+//               text-align: right;
+//               font-size: 10px;
+//             }
+//             .footer {
+//               margin-top: 12px;
+//               font-size: 9px;
+//               text-align: center;
+//               font-weight: bold;
+//             }
+//           </style>
+//         </head>
+//         <body>
+//           <div class="header">Siddiqui Medical Store</div>
+//           <div class="shop-info">
+//             <p>53- Gulberg III Near Sui Gas Office Guru Mangat Road</p>
+//             <p>Opposite SNGPL Office Lahore</p>
+//             <p>Phone#: 03364214916, 03114572734</p>
+//             <p>License No: 490-B/GT/10/2016</p>
+//           </div>
+//           <div class="customer">
+//             Customer Name: <span style="text-transform: uppercase;">${customerName}</span>
+//           </div>
+//           <table>
+//             <tr>
+//               <td style="text-align:left;">Invoice #</td>
+//               <td style="text-align:right;">#2</td>
+//             </tr>
+//             <tr>
+//               <td style="text-align:left;">Date</td>
+//               <td style="text-align:right;">${new Date().toLocaleDateString()}</td>
+//             </tr>
+//           </table>
+//           <table style="margin-top:6px;">
+//             <thead>
+//               <tr>
+//                 <th>Sr#</th>
+//                 <th>Item</th>
+//                 <th>Unit Cost</th>
+//                 <th>Qty</th>
+//                 <th>Price</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               ${allItem
+//                 .map(
+//                   (item, i) => `
+//                   <tr>
+//                     <td>${i + 1}</td>
+//                     <td style="text-align:left;">${item.name}</td>
+//                     <td>${item.price}</td>
+//                     <td>${item.quantity}</td>
+//                     <td>${item.price * item.quantity}</td>
+//                   </tr>
+//                 `,
+//                 )
+//                 .join("")}
+//             </tbody>
+//           </table>
+//           <table class="summary">
+//             <tr>
+//               <td>Subtotal</td>
+//               <td>${subtotal}</td>
+//             </tr>
+//             <tr>
+//               <td><b>Grand Total</b></td>
+//               <td><b>${subtotal}</b></td>
+//             </tr>
+//           </table>
+//           <div class="footer">
+//             <p>FRIDGE ITEM & INHALER & LOOSE MEDICINE NON RETURNABLE</p>
+//             <p>(Computer Software Developed by ConsoleDot – Ph# 03321639988)</p>
+//           </div>
+//         </body>
+//       </html>
+//     `)
+//     printWindow.document.close()
+//     printWindow.print()
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="mb-8">
+//           <button
+//             className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+//             onClick={() => navigate(`/dashboard`)}
+//           >
+//             <FaArrowLeft className="w-4 h-4" />
+//             <span className="font-medium">Back to Dashboard</span>
+//           </button>
+
+//           <div className="mt-6">
+//             <h1 className="text-3xl font-bold text-slate-800 mb-2">Generate Invoice</h1>
+//             <p className="text-slate-600">Create and manage pharmacy invoices</p>
+//           </div>
+//         </div>
+
+//         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+//             <div className="space-y-2">
+//               <label className="block text-sm font-semibold text-slate-700">Search Product</label>
+//               <div className="relative">
+//                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+//                 <input
+//                   type="text"
+//                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//                   placeholder="Search for products..."
+//                   value={searchTerm}
+//                   onChange={handleSearchChange}
+//                 />
+//               </div>
+//             </div>
+
+//             <div className="space-y-2">
+//               <label className="block text-sm font-semibold text-slate-700">Customer Name</label>
+//               <input
+//                 type="text"
+//                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//                 placeholder="Enter customer name"
+//                 value={customerName}
+//                 onChange={(e) => setCustomerName(e.target.value)}
+//               />
+//             </div>
+//           </div>
+
+//           {/* <div className="mt-6">
+//             <label className="block text-sm font-semibold text-slate-700 mb-2">Discount (%)</label>
+//             <input
+//               type="number"
+//               className="w-full max-w-xs px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//               placeholder="Enter discount percentage"
+//               value={discount}
+//               onChange={(e) => setDiscount(e.target.value)}
+//             />
+//           </div> */}
+//         </div>
+
+//         {isSearchModal && (
+//           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+//             <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-2xl mx-4 max-h-96 overflow-hidden">
+//               <h2 className="text-xl font-bold text-slate-800 mb-4">Search Results</h2>
+//               <div className="max-h-64 overflow-y-auto">
+//                 {filteredProducts.length > 0 ? (
+//                   <ul className="space-y-2">
+//                     {filteredProducts.map((product) => (
+//                       <li
+//                         key={product.id}
+//                         className="p-3 hover:bg-slate-50 cursor-pointer rounded-lg border border-slate-200 transition-colors"
+//                         onClick={() => handleSelectProduct(product)}
+//                       >
+//                         <div className="flex justify-between items-center">
+//                           <span className="font-medium text-slate-800">{product.name}</span>
+//                           <span className="text-blue-600 font-semibold">Rs {product.price}</span>
+//                         </div>
+//                       </li>
+//                     ))}
+//                   </ul>
+//                 ) : (
+//                   <p className="text-slate-500 text-center py-8">No products found</p>
+//                 )}
+//               </div>
+//               <button
+//                 className="mt-4 w-full px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
+//                 onClick={() => setIsSearchModal(false)}
+//               >
+//                 Close
+//               </button>
+//             </div>
+//           </div>
+//         )}
+
+//         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+//           <h3 className="text-lg font-semibold text-slate-800 mb-4">Add Item</h3>
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+//             <div className="space-y-2">
+//               <label className="block text-sm font-semibold text-slate-700">Item Name</label>
+//               <input
+//                 type="text"
+//                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//                 placeholder="Medicine name"
+//                 value={name}
+//                 onChange={(e) => setName(e.target.value)}
+//               />
+//             </div>
+//             <div className="space-y-2">
+//               <label className="block text-sm font-semibold text-slate-700">Quantity</label>
+//               <input
+//                 type="number"
+//                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//                 placeholder="Quantity"
+//                 value={quantity}
+//                 onChange={(e) => setQuantity(e.target.value)}
+//               />
+//             </div>
+//             <div className="space-y-2">
+//               <label className="block text-sm font-semibold text-slate-700">Price (Rs)</label>
+//               <input
+//                 type="number"
+//                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+//                 placeholder="Price"
+//                 value={price}
+//                 onChange={(e) => setPrice(e.target.value)}
+//               />
+//             </div>
+//           </div>
+//           <button
+//             className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+//             onClick={addItem}
+//           >
+//             <FaPlus className="w-4 h-4" />
+//             Add Item
+//           </button>
+//         </div>
+
+//         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+//           <div className="px-6 py-4 bg-slate-50 border-b border-slate-200">
+//             <h3 className="text-lg font-semibold text-slate-800">Invoice Items</h3>
+//           </div>
+
+//           {allItem.length > 0 ? (
+//             <div className="overflow-x-auto">
+//               <table className="w-full">
+//                 <thead className="bg-slate-50">
+//                   <tr>
+//                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Medicine</th>
+//                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Quantity</th>
+//                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Unit Price</th>
+//                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Total</th>
+//                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Actions</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody className="divide-y divide-slate-200">
+//                   {allItem.map((item, index) => (
+//                     <tr key={index} className="hover:bg-slate-50 transition-colors">
+//                       <td className="px-6 py-4">
+//                         <span className="font-medium text-slate-800">{item.name}</span>
+//                       </td>
+//                       <td className="px-6 py-4">
+//                         {editableItemIndex === index ? (
+//                           <input
+//                             ref={(el) => (editableRefs.current[index] = el)}
+//                             type="number"
+//                             className="w-20 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//                             value={item.quantity}
+//                             onChange={(e) => handleQuantityChange(e, index)}
+//                           />
+//                         ) : (
+//                           <span className="text-slate-700">{item.quantity}</span>
+//                         )}
+//                       </td>
+//                       <td className="px-6 py-4">
+//                         <span className="text-slate-700">Rs {item.price.toFixed(2)}</span>
+//                       </td>
+//                       <td className="px-6 py-4">
+//                         <span className="font-semibold text-slate-800">
+//                           Rs {(item.price * item.quantity).toFixed(2)}
+//                         </span>
+//                       </td>
+//                       <td className="px-6 py-4">
+//                         <div className="flex gap-3">
+//                           <button
+//                             className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+//                             onClick={() => setEditableItemIndex(editableItemIndex === index ? null : index)}
+//                           >
+//                             <FaRegPenToSquare className="w-4 h-4" />
+//                           </button>
+//                           <button
+//                             className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+//                             onClick={() => setIsModal(true)}
+//                           >
+//                             <FaTrashAlt className="w-4 h-4" />
+//                           </button>
+//                         </div>
+//                       </td>
+//                     </tr>
+//                   ))}
+//                 </tbody>
+//               </table>
+//             </div>
+//           ) : (
+//             <div className="px-6 py-12 text-center">
+//               <p className="text-slate-500 text-lg">No items added yet</p>
+//               <p className="text-slate-400 text-sm mt-1">Add items to start building your invoice</p>
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+//           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+//             <div className="text-right">
+//               <p className="text-sm text-slate-600 mb-1">Total Amount</p>
+//               <p className="text-3xl font-bold text-slate-800">Rs {totalPrice.toFixed(2)}</p>
+//             </div>
+//             <button
+//               className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+//               onClick={handleClicku}
+//               disabled={allItem.length === 0 || !customerName}
+//             >
+//               Generate Invoice
+//             </button>
+//           </div>
+//         </div>
+
+//         {isModal && (
+//           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+//             <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+//               <div className="text-center">
+//                 <div className="w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+//                   <FaTrashAlt className="w-6 h-6 text-red-600" />
+//                 </div>
+//                 <h3 className="text-lg font-semibold text-slate-800 mb-2">Delete Item</h3>
+//                 <p className="text-slate-600 mb-6">
+//                   Are you sure you want to delete this item? This action cannot be undone.
+//                 </p>
+//                 <div className="flex gap-3 justify-center">
+//                   <button
+//                     className="px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg transition-colors"
+//                     onClick={() => setIsModal(false)}
+//                   >
+//                     Cancel
+//                   </button>
+//                   <button
+//                     className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+//                     onClick={() => handleDeleteClick(allItem.findIndex(() => true))}
+//                   >
+//                     Delete
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { FaArrowLeft, FaTrashAlt, FaSearch, FaPlus, FaCheck, FaTimes } from "react-icons/fa"
+import { FaRegPenToSquare } from "react-icons/fa6"
+
 export const GenerateInvoiceComponent = () => {
-  const [dailySales, setDailySales] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [sales, setSales] = useState([]);
-  const navigate = useNavigate();
-  // const [showSalesReport, setShowSalesReport] = useState(false);
-  const [medications, setMedications] = useState();
+  const [product, setProduct] = useState([])
+  const [name, setName] = useState("")
+  const [quantity, setQuantity] = useState(1)
+  const [price, setPrice] = useState(0)
+  const [allItem, setAllItem] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [editableItemIndex, setEditableItemIndex] = useState(null)
+  const [customerName, setCustomerName] = useState("")
+  const [isModal, setIsModal] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [isSearchModal, setIsSearchModal] = useState(false)
+  const editableRefs = useRef([])
+  const navigate = useNavigate()
+
   const getProduct = () => {
     fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
       method: "GET",
@@ -480,135 +1181,503 @@ export const GenerateInvoiceComponent = () => {
     })
       .then((response) => {
         if (response.status === 200 || 201) {
-          return response.json();
+          return response.json()
         } else {
-          throw new Error("Failed to get product");
+          throw new Error("Failed to get product")
         }
       })
       .then((data) => {
-        setMedications(data?.data);
+        setProduct(data?.data || [])
       })
       .catch((error) => {
-        toast.error(error?.message);
-      });
-  };
-  useEffect(() => {
-    getProduct();
-  }, []);
-
-  const getDailySaleReports = () => {
-    // API call to get daily sales report
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale/today", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.status === 200 || 201) {
-          return response.json();
-        } else {
-          throw new Error("Failed to get product");
-        }
+        toast.error(error?.message)
       })
-      .then((data) => {
-        setDailySales(data?.data);
-      })
-      .catch((error) => {
-        toast.error(error?.message);
-      });
-  };
+  }
+
   useEffect(() => {
-    getDailySaleReports();
-  }, []);
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item._id === product._id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-  };
+    getProduct()
+  }, [])
 
-  const removeFromCart = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item._id !== productId)
-    );
-  };
+  const handleSearchChange = (e) => {
+    const searchValue = e.target.value.toLowerCase()
+    setSearchTerm(searchValue)
 
-  const checkout = (updatedItems, isFinal = true) => {
-    if (isFinal) {
-      if (cartItems.length === 0) return;
-
-      const total = cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      );
-      const sale = {
-        date: new Date().toISOString(),
-        items: [...cartItems],
-        total,
-      };
-
-      setSales((prevSales) => [...prevSales, sale]);
-      setCartItems([]);
+    if (searchValue) {
+      const filtered = product.filter((p) => p.name.toLowerCase().includes(searchValue))
+      setFilteredProducts(filtered)
+      setIsSearchModal(true)
     } else {
-      // Update cart items without completing the sale
-      setCartItems(updatedItems);
+      setFilteredProducts([])
+      setIsSearchModal(false)
     }
-  };
-  return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className=" flex w-full">
-        <div
-          className="h-10 w-12 bg-black p-2 rounded-lg cursor-pointer"
-          onClick={() => navigate("/dashboard")}
-        >
-          {" "}
-          <FaArrowLeft className=" text-white  w-full h-full " />
-        </div>
-        <h1 className="text-3xl ml-[30%] font-bold text-center">
-          Pharmacy Inventory System
-        </h1>
-      </div>
-      <div className="max-w-7xl mt-10 mx-auto">
-        {/* <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Pharmacy Inventory System</h1>
-        </div> */}
+  }
 
-        <div className="flex flex-col w-full gap-4">
-          <div className=" flex flex-col gap-4 ">
-            <div className="">
-              <ProductList addToCart={addToCart} medications={medications} />
-            </div>
-            <Cart
-              items={cartItems}
-              removeFromCart={removeFromCart}
-              checkout={checkout}
-              getProduct={getProduct}
-              getDailySaleReports={getDailySaleReports}
-            />
-            <div className="bg-white p-6 fixed  right-4 bottom-4 rounded-lg shadow w-[30%] h-56">
-              <h2 className="text-3xl font-semibold text-gray-800 mb-4">
-                Today's Sale
-              </h2>
-              <div className="flex items-center justify-between">
-                <p className="text-xl text-center text-gray-600 font-medium">
-                  Total Sales:
-                </p>
-                <p className="text-xl font-bold text-gray-800">
-                  <span className="text-5xl">{dailySales?.totalSales}</span> Rs
-                </p>
+  const handleSelectProduct = (selectedProduct) => {
+    setName(selectedProduct.name)
+    setPrice(selectedProduct.price)
+    setIsSearchModal(false)
+    setSearchTerm("")
+  }
+
+  const addItem = () => {
+    if ((name && quantity > 0, customerName)) {
+      setAllItem((prev) => [...prev, { name, quantity, price: Number.parseFloat(price) }])
+      setName("")
+      setPrice(0)
+      setQuantity(1)
+    } else {
+      toast("Please fill all input fields correctly", {
+        bodyClassName: "text-red-500",
+      })
+    }
+  }
+
+  useEffect(() => {
+    const total = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    setTotalPrice(total)
+  }, [allItem])
+
+  const handleQuantityChange = (e, index) => {
+    const newQuantity = e.target?.value
+    setAllItem((prev) => prev.map((item, i) => (i === index ? { ...item, quantity: newQuantity } : item)))
+  }
+
+  const handleDeleteClick = () => {
+    if (itemToDelete !== null) {
+      setAllItem((prev) => prev.filter((_, i) => i !== itemToDelete))
+      toast("Item deleted")
+      setIsModal(false)
+      setItemToDelete(null)
+    }
+  }
+
+  const openDeleteModal = (index) => {
+    setItemToDelete(index)
+    setIsModal(true)
+  }
+
+  const saveEditedItem = () => {
+    setEditableItemIndex(null)
+    toast("Item updated successfully")
+  }
+
+  const cancelEdit = () => {
+    setEditableItemIndex(null)
+  }
+
+  const handleClick = () => {
+    setCustomerName("")
+    const subtotal = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  }
+
+  const handleClicku = () => {
+    setCustomerName("")
+    const subtotal = allItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const printWindow = window.open("", "", "width=600,height=800")
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>POS Pharmacy</title>
+          <style>
+            @page {
+              size: 80mm 210mm;
+              margin: 5mm;
+            }
+            body {
+              font-family: Arial, sans-serif;
+              font-size: 10px;
+              line-height: 1.3;
+              width: 72mm;
+              margin: auto;
+            }
+            h1, h2, h3, p {
+              margin: 2px 0;
+            }
+            .header {
+              background: #000;
+              color: #fff;
+              text-align: center;
+              font-size: 12px;
+              font-weight: bold;
+              padding: 2px 0;
+            }
+            .shop-info {
+              font-size: 9px;
+              margin-top: 4px;
+            }
+            .customer {
+              margin: 8px 0;
+              font-size: 10px;
+              font-weight: bold;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 9px;
+            }
+            th, td {
+              border: 1px solid #000;
+              padding: 2px 3px;
+              text-align: center;
+            }
+            th {
+              background: #f1f1f1;
+            }
+            .summary {
+              margin-top: 6px;
+              width: 100%;
+              border: 1px solid #000;
+            }
+            .summary td {
+              padding: 4px;
+              text-align: right;
+              font-size: 10px;
+            }
+            .footer {
+              margin-top: 12px;
+              font-size: 9px;
+              text-align: center;
+              font-weight: bold;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">Siddiqui Medical Store</div>
+          <div class="shop-info">
+            <p>53- Gulberg III Near Sui Gas Office Guru Mangat Road</p>
+            <p>Opposite SNGPL Office Lahore</p>
+            <p>Phone#: 03364214916, 03114572734</p>
+            <p>License No: 490-B/GT/10/2016</p>
+          </div>
+          <div class="customer">
+            Customer Name: <span style="text-transform: uppercase;">${customerName}</span>
+          </div>
+          <table>
+            <tr>
+              <td style="text-align:left;">Invoice #</td>
+              <td style="text-align:right;">#2</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;">Date</td>
+              <td style="text-align:right;">${new Date().toLocaleDateString()}</td>
+            </tr>
+          </table>
+          <table style="margin-top:6px;">
+            <thead>
+              <tr>
+                <th>Sr#</th>
+                <th>Item</th>
+                <th>Unit Cost</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allItem
+                .map(
+                  (item, i) => `
+                  <tr>
+                    <td>${i + 1}</td>
+                    <td style="text-align:left;">${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price * item.quantity}</td>
+                  </tr>
+                `,
+                )
+                .join("")}
+            </tbody>
+          </table>
+          <table class="summary">
+            <tr>
+              <td>Subtotal</td>
+              <td>${subtotal}</td>
+            </tr>
+            <tr>
+              <td><b>Grand Total</b></td>
+              <td><b>${subtotal}</b></td>
+            </tr>
+          </table>
+          <div class="footer">
+            <p>FRIDGE ITEM & INHALER & LOOSE MEDICINE NON RETURNABLE</p>
+            <p>(Computer Software Developed by ConsoleDot – Ph# 03321639988)</p>
+          </div>
+        </body>
+      </html>
+    `)
+    printWindow.document.close()
+    printWindow.print()
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <button
+            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+            onClick={() => navigate(`/dashboard`)}
+          >
+            <FaArrowLeft className="w-4 h-4" />
+            <span className="font-medium">Back to Dashboard</span>
+          </button>
+
+          <div className="mt-6">
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">Generate Invoice</h1>
+            <p className="text-slate-600">Create and manage pharmacy invoices</p>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-700">Search Product</label>
+              <div className="relative">
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                <input
+                  type="text"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  placeholder="Search for products..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-700">Customer Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="Enter customer name"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
             </div>
           </div>
         </div>
+
+        {isSearchModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-2xl mx-4 max-h-96 overflow-hidden">
+              <h2 className="text-xl font-bold text-slate-800 mb-4">Search Results</h2>
+              <div className="max-h-64 overflow-y-auto">
+                {filteredProducts.length > 0 ? (
+                  <ul className="space-y-2">
+                    {filteredProducts.map((product) => (
+                      <li
+                        key={product.id}
+                        className="p-3 hover:bg-slate-50 cursor-pointer rounded-lg border border-slate-200 transition-colors"
+                        onClick={() => handleSelectProduct(product)}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-medium text-slate-800">{product.name}</span>
+                          <span className="text-blue-600 font-semibold">Rs {product.price}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-slate-500 text-center py-8">No products found</p>
+                )}
+              </div>
+              <button
+                className="mt-4 w-full px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
+                onClick={() => setIsSearchModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+          <h3 className="text-lg font-semibold text-slate-800 mb-4">Add Item</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-700">Item Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="Medicine name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-700">Quantity</label>
+              <input
+                type="number"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-700">Price (Rs)</label>
+              <input
+                type="number"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+          </div>
+          <button
+            className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+            onClick={addItem}
+          >
+            <FaPlus className="w-4 h-4" />
+            Add Item
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+          <div className="px-6 py-4 bg-slate-50 border-b border-slate-200">
+            <h3 className="text-lg font-semibold text-slate-800">Invoice Items</h3>
+          </div>
+
+          {allItem.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Medicine</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Quantity</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Unit Price</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Total</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {allItem.map((item, index) => (
+                    <tr key={index} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <span className="font-medium text-slate-800">{item.name}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        {editableItemIndex === index ? (
+                          <input
+                            ref={(el) => (editableRefs.current[index] = el)}
+                            type="number"
+                            className="w-20 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={item.quantity}
+                            onChange={(e) => handleQuantityChange(e, index)}
+                          />
+                        ) : (
+                          <span className="text-slate-700">{item.quantity}</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-slate-700">Rs {item.price.toFixed(2)}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="font-semibold text-slate-800">
+                          Rs {(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex gap-2">
+                          {editableItemIndex === index ? (
+                            <>
+                              <button
+                                className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                onClick={saveEditedItem}
+                                title="Save changes"
+                              >
+                                <FaCheck className="w-4 h-4" />
+                              </button>
+                              <button
+                                className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                                onClick={cancelEdit}
+                                title="Cancel editing"
+                              >
+                                <FaTimes className="w-4 h-4" />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                onClick={() => setEditableItemIndex(index)}
+                                title="Edit quantity"
+                              >
+                                <FaRegPenToSquare className="w-4 h-4" />
+                              </button>
+                              <button
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                onClick={() => openDeleteModal(index)}
+                                title="Delete item"
+                              >
+                                <FaTrashAlt className="w-4 h-4" />
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="px-6 py-12 text-center">
+              <p className="text-slate-500 text-lg">No items added yet</p>
+              <p className="text-slate-400 text-sm mt-1">Add items to start building your invoice</p>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="text-right">
+              <p className="text-sm text-slate-600 mb-1">Total Amount</p>
+              <p className="text-3xl font-bold text-slate-800">Rs {totalPrice.toFixed(2)}</p>
+            </div>
+            <button
+              className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleClicku}
+              disabled={allItem.length === 0 || !customerName}
+            >
+              Generate Invoice
+            </button>
+          </div>
+        </div>
+
+        {isModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                  <FaTrashAlt className="w-6 h-6 text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Delete Item</h3>
+                <p className="text-slate-600 mb-6">
+                  Are you sure you want to delete this item? This action cannot be undone.
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    className="px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg transition-colors"
+                    onClick={() => {
+                      setIsModal(false)
+                      setItemToDelete(null)
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                    onClick={handleDeleteClick}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  );
-};
+  )
+}
