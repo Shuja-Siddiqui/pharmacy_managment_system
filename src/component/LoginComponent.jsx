@@ -1,116 +1,165 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Mail, Lock, User, Shield, Pill, ArrowRight } from "lucide-react";
 
 export const LoginComponent = () => {
   const [selectedComponent, setSelectedComponent] = useState("user");
-  const [formData, setFormData] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: formData?.email,
-        password: formData?.password,
-        role: selectedComponent,
-      }),
-    })
-      .then(async (response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          const error = await response.json();
-          toast.error(error.message); // Wait for the error response
-          throw new Error(error.message || "An unexpected error occurred");
-        }
-      })
-      .then((data) => {
-        toast.success("login sucessfully");
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch("https://api-pharmacy-nu.vercel.app/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData?.email,
+          password: formData?.password,
+          role: selectedComponent,
+        }),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        toast.success("Login successful! Welcome back.");
         localStorage.setItem("@role", data?.data?.user?.role);
         localStorage.setItem("token", data?.data?.token);
-        navigate(`/dashboard`);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+        navigate("/dashboard");
+      } else {
+        const error = await response.json();
+        toast.error(error.message || "Login failed. Please try again.");
+        throw new Error(error.message || "An unexpected error occurred");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
-    <>
-      <div className="w-full h-screen bg-[#F3F4F6] flex justify-center items-center">
-        <div className="w-[35%] h-[45%] flex justify-between items-center flex-col bg-white shadow-md rounded-lg p-7">
-          <div className="flex w-full justify-start flex-col">
-            <h1 className="text-3xl font-semibold ">Pharmacy POS Login</h1>
-            <h2 className="text-lg  mt-1 text-[#87888A]">
-              Entrer your credentials to access the system
-            </h2>
-            <div className="flex gap-20 mt-2 ">
-              <h1
-                className={`font-semibold cursor-pointer ${
-                  selectedComponent === "user"
-                    ? " text-[#87888A]  border-b-2  border-[#E8E8E8]  "
-                    : ""
-                } `}
-                onClick={() => setSelectedComponent("user")}
-              >
-                User
-              </h1>
-              <h1
-                className={`font-semibold cursor-pointer ${
-                  selectedComponent === "admin"
-                    ? " text-[#87888A]   border-b-2  border-[#E8E8E8] "
-                    : ""
-                } `}
-                onClick={() => setSelectedComponent("admin")}
-              >
-                Admin
-              </h1>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header with Logo */}
+        <div className="text-center mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+            <Pill className="h-8 w-8 text-white" />
           </div>
-          <form
-            onSubmit={handleLogin}
-            className="w-full h-full flex justify-around flex-col"
-          >
-            <div className="w-full flex  flex-col gap-5">
-              <input
-                type="email"
-                required
-                 autoComplete="email"
-                className=" w-full rounded-lg p-3 placeholder:text-[#87888A] placeholder:font-semibold border  border-[#E8E8E8]"
-                placeholder="Email"
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-              <input
-                type="password"
-                required
-                autoComplete="current-password"
-                className=" w-full rounded-lg p-3 placeholder:text-[#87888A] 
-              placeholder:font-semibold border border-[#E8E8E8]"
-                placeholder="Password"
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
-            <div className="w-full flex justify-between items-center">
-              {/* <button className="py-3 px-4 border-[#E8E8E8] border rounded-lg  font-semibold">
-                Cancel
-              </button> */}
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Pharmacy POS
+          </h1>
+          <p className="text-gray-600 text-sm">
+            Enter your credentials to access the system
+          </p>
+        </div>
+
+        {/* Main Login Card */}
+        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+          {/* Role Selection Tabs */}
+          <div className="p-4 pb-0">
+            <div className="flex bg-gray-100 rounded-2xl p-1">
               <button
-                className="py-3 px-4 w-full bg-black text-white rounded-lg font-semibold"
-                type="submit"
+                type="button"
+                onClick={() => setSelectedComponent("user")}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                  selectedComponent === "user"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
-                Login
+                <User className="h-4 w-4" />
+                User
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedComponent("admin")}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                  selectedComponent === "admin"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                <Shield className="h-4 w-4" />
+                Admin
               </button>
             </div>
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleLogin} className="p-4">
+            <div className="space-y-2">
+              {/* Email Input */}
+              <div className="group">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                  <input
+                    type="email"
+                    required
+                    autoComplete="email"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Password Input */}
+              <div className="group">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                  <input
+                    type="password"
+                    required
+                    autoComplete="current-password"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange("password", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="h-5 w-5" />
+                </>
+              )}
+            </button>
           </form>
+
         </div>
       </div>
-    </>
+    </div>
   );
 };
