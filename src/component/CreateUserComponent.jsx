@@ -3,7 +3,8 @@ import { FaArrowLeft, FaTrashAlt } from "react-icons/fa";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 export const CreateUserComponent = () => {
   const [formData, setFormData] = useState();
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export const CreateUserComponent = () => {
 
   // get user function
   const getData = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user", {
+    fetch(`${BASE_URL}/user`, {
       headers: {
         "Content-Type": "application/json",
         // Include Authorization header if required
@@ -52,7 +53,7 @@ export const CreateUserComponent = () => {
     const token = localStorage.getItem("token");
     console.log(token);
     e.preventDefault();
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/user", {
+    fetch(`${BASE_URL}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +91,7 @@ export const CreateUserComponent = () => {
     const { _id, __v, ...rest } = selectItem;
     console.log(token);
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/user/${selectItem?._id}`, {
+    fetch(`${BASE_URL}/user/${selectItem?._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +119,7 @@ export const CreateUserComponent = () => {
   const handleDelete = (e) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/user/${selectItem?._id}`, {
+    fetch(`${BASE_URL}/user/${selectItem?._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -147,7 +148,7 @@ export const CreateUserComponent = () => {
       <div className=" flex w-full">
         <div
           className="h-10 w-12 bg-black p-2 rounded-lg cursor-pointer"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           {" "}
           <FaArrowLeft className=" text-white  w-full h-full " />

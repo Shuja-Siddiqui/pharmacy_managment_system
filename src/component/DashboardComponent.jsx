@@ -17,6 +17,7 @@ import {
   DollarSign,
   TrendingUp,
   AlertTriangle,
+  Receipt,
 } from "lucide-react";
 
 export const DashboardComponent = () => {
@@ -78,6 +79,14 @@ export const DashboardComponent = () => {
       route: "/create-user",
       available: userRole === "admin",
     },
+    {
+      title: "Invoices",
+      description: "View detailed invoice",
+      icon: Receipt,
+      color: "from-indigo-500 to-indigo-600",
+      route: "/invoices",
+      available: userRole === "admin",
+    },
   ];
 
   const availableActions = mainActions.filter((action) => action.available);
@@ -116,7 +125,7 @@ export const DashboardComponent = () => {
             </div>
 
             {/* User Actions */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            {/* <div className="flex items-center gap-2 sm:gap-4">
               <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell className="h-5 w-5" />
               </button>
@@ -139,16 +148,16 @@ export const DashboardComponent = () => {
                 <Settings className="h-5 w-5" />
               </button>
 
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-                <span className="hidden sm:inline text-sm font-medium">
-                  Logout
-                </span>
-              </button>
-            </div>
+              </div> */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline text-sm font-medium">
+                Logout
+              </span>
+            </button>
           </div>
         </div>
       </header>

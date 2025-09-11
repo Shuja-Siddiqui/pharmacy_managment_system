@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 export const SalesReportComponent = () => {
   const [allSales, setAllSales] = useState([]);
   const [returnProduct, setReturnProduct] = useState([]);
@@ -10,7 +11,7 @@ export const SalesReportComponent = () => {
   const navigate = useNavigate();
 
   const getDailySaleReports = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale/all", {
+    fetch(`${BASE_URL}/sale/all`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,7 @@ export const SalesReportComponent = () => {
       });
   };
   const getReturnProduct = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/returns", {
+    fetch(`${BASE_URL}/returns`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +81,7 @@ export const SalesReportComponent = () => {
       <div className=" flex w-full">
         <div
           className="h-10 w-12 bg-black p-2 rounded-lg cursor-pointer"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           {" "}
           <FaArrowLeft className=" text-white  w-full h-full " />

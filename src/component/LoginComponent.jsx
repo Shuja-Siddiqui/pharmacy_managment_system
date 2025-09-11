@@ -14,7 +14,7 @@ export const LoginComponent = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch("https://api-pharmacy-nu.vercel.app/api/v1/user/login", {
+      const response = await fetch("${BASE_URL}/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const LoginComponent = () => {
         toast.success("Login successful! Welcome back.");
         localStorage.setItem("@role", data?.data?.user?.role);
         localStorage.setItem("token", data?.data?.token);
-        navigate("/dashboard");
+        navigate("/");
       } else {
         const error = await response.json();
         toast.error(error.message || "Login failed. Please try again.");
