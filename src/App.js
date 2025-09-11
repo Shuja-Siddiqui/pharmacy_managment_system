@@ -9,18 +9,19 @@ import {
   RetrunInventaoryPage,
   SalesReportPage,
 } from "./pages";
+import { AllInvoiceComponent } from "./component";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/generateInvoice" element={<GenerateInvoice />} />
         <Route path="/inventory" element={<InventoryPage />} />
-        <Route path="/retrun-inventory" element={<RetrunInventaoryPage />} />
+        <Route path="/return-inventory" element={<RetrunInventaoryPage />} />
         <Route path="/sales-report" element={<SalesReportPage />} />
-        <Route path="/view-all-invoices" element={<SalesReportPage />} />
+        <Route path="/invoices" element={<AllInvoiceComponent />} />
         <Route path="/create-user" element={<CreateUserPage />} />
       </Routes>
     </>

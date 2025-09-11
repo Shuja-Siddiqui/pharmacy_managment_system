@@ -4,7 +4,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 export const InventoryComponent = () => {
   const [formData, setFormData] = useState();
   const [searchterm, setSearchTerm] = useState();
@@ -25,7 +26,7 @@ export const InventoryComponent = () => {
 
   const addCategory = () => {
     const token = localStorage.getItem("token");
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
+    fetch(`${BASE_URL}/category`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +57,7 @@ export const InventoryComponent = () => {
   };
 
   const getCategory = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
+    fetch(`${BASE_URL}/category`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,7 @@ export const InventoryComponent = () => {
   };
 
   const getProduct = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
+    fetch(`${BASE_URL}/product`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +108,7 @@ export const InventoryComponent = () => {
   const addProduct = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
+    fetch(`${BASE_URL}/product`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,7 +154,7 @@ export const InventoryComponent = () => {
     const { _id, __v, ...rest } = selectItem;
     console.log(token);
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/product/by-id/${selectItem?._id}`, {
+    fetch(`${BASE_URL}/product/by-id/${selectItem?._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +183,7 @@ export const InventoryComponent = () => {
   const handleDelete = (e) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/product/by-id/${selectItem?._id}`, {
+    fetch(`${BASE_URL}/product/by-id/${selectItem?._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -221,7 +222,7 @@ export const InventoryComponent = () => {
       <div className=" flex w-full">
         <div
           className="h-10 w-12 bg-black p-2 rounded-lg cursor-pointer"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           {" "}
           <FaArrowLeft className=" text-white  w-full h-full " />
@@ -348,14 +349,14 @@ export const InventoryComponent = () => {
             {filterData(product)?.map((item) => (
               <tr className="border-t h-[36px] shadow-slate-50 hover:bg-slate-300 ">
                 <th className="text-base  font-normal ">{item.name} </th>
-                <th className="text-base  font-normal">{item?.price}</th>
+                <th className="text-base  font-normal">{item?.price?.toFixed(2)}</th>
                 <th className="text-base  font-normal">{item?.dosage}</th>
                 <th className="text-base  font-normal ">{item?.stock} </th>
                 <th className="text-base  font-normal ">
                   {item?.category?.name}{" "}
                 </th>
                 <th className="text-base  font-normal">
-                  {item?.price * item?.stock}
+                  {(item?.price * item?.stock).toFixed(2)}
                 </th>
                 <th className="text-base  font-normal ">
                   {new Date(item?.createdAt).toLocaleDateString()}

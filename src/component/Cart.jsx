@@ -3,7 +3,8 @@ import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
 import Invoice from "./Invoice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 function Cart({
   items,
   removeFromCart,
@@ -34,7 +35,7 @@ function Cart({
 
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/sale", {
+    fetch(`${BASE_URL}/sale`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,8 @@ import { FaArrowLeft, FaPlus, FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Pagination } from "./Pagination";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 export const RetrunInventoryComponent = () => {
   const [returnProduct, setReturnProduct] = useState();
   const [formData, setFormData] = useState();
@@ -20,7 +21,7 @@ export const RetrunInventoryComponent = () => {
 
   // const addCategory = () => {
   //   const token = localStorage.getItem("token");
-  //   fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
+  //   fetch("${BASE_URL}/category", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -48,7 +49,7 @@ export const RetrunInventoryComponent = () => {
   // };
 
   // const getCategory = () => {
-  //   fetch("https://api-pharmacy-nu.vercel.app/api/v1/category", {
+  //   fetch("${BASE_URL}/category", {
   //     method: "GET",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export const RetrunInventoryComponent = () => {
   // };
 
   const getReturnProduct = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/returns", {
+    fetch(`${BASE_URL}/returns`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +100,7 @@ export const RetrunInventoryComponent = () => {
   const addProduct = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/returns", {
+    fetch(`${BASE_URL}/returns`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +145,7 @@ export const RetrunInventoryComponent = () => {
     const token = localStorage.getItem("token");
     console.log(token);
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/returns`, {
+    fetch(`${BASE_URL}/returns`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -177,7 +178,7 @@ export const RetrunInventoryComponent = () => {
   const handleDelete = (e) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
-    fetch(`https://api-pharmacy-nu.vercel.app/api/v1/product/by-id/${selectItem?._id}`, {
+    fetch(`${BASE_URL}/product/by-id/${selectItem?._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -204,7 +205,7 @@ export const RetrunInventoryComponent = () => {
   };
 
   const getProduct = () => {
-    fetch("https://api-pharmacy-nu.vercel.app/api/v1/product", {
+    fetch(`${BASE_URL}/product`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -249,7 +250,7 @@ export const RetrunInventoryComponent = () => {
       <div className=" flex w-full">
         <div
           className="h-10 w-12 bg-black p-2 rounded-lg"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           {" "}
           <FaArrowLeft className=" text-white  w-full h-full " />
