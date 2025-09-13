@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Mail, Lock, User, Shield, Pill, ArrowRight } from "lucide-react";
-
+import config from "../api/config";
+const BASE_URL = config.BASE_URL
 export const LoginComponent = () => {
   const [selectedComponent, setSelectedComponent] = useState("user");
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -14,7 +15,7 @@ export const LoginComponent = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch("${BASE_URL}/user/login", {
+      const response = await fetch(`${BASE_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

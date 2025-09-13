@@ -1172,7 +1172,7 @@ import {
   FileText,
 } from "lucide-react";
 import config from "../api/config";
-const BASE_URL = config.BASE_URL
+const BASE_URL = config.BASE_URL;
 export const GenerateInvoiceComponent = () => {
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -1211,7 +1211,7 @@ export const GenerateInvoiceComponent = () => {
   const getProduct = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("${BASE_URL}/product", {
+      const response = await fetch(`${BASE_URL}/product`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -1233,7 +1233,7 @@ export const GenerateInvoiceComponent = () => {
 
   const getDailySaleReports = async () => {
     try {
-      const response = await fetch("${BASE_URL}/sale/today", {
+      const response = await fetch(`${BASE_URL}/sale/today`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -1362,96 +1362,93 @@ export const GenerateInvoiceComponent = () => {
       0
     );
 
-    const printWindow = window.open("", "", "width=600,height=800");
+    const printWindow = window.open("", "", "width=700,height=800");
     printWindow.document.write(`
     <html>
       <head>
         <title>POS Pharmacy Invoice</title>
         <style>
-          @page {
-            size: 80mm 297mm;  
-            margin: 5mm;
-          }
-          body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.4;
-            width: 75mm;
-            margin: auto;
-          }
-          h1, h2, h3, p {
-            margin: 4px 0;
-          }
-          .header {
-            background: #1e40af;
-            color: #fff;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 8px 0;
-            border-radius: 4px;
-          }
-          .shop-info {
-            font-size: 12px;
-            margin: 15px 0;
-            text-align: center;
-            line-height: 1.3;
-          }
-          .customer {
-            margin: 10px 0;
-            font-size: 13px;
-            font-weight: 600;
-            background: #f8fafc;
-            padding: 8px;
-            border-radius: 4px;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            font-weight: 600;
-            margin: 8px 0;
-          }
-          th, td {
-            border: 1px solid #e2e8f0;
-            padding: 6px 4px;
-            text-align: center;
-          }
-          th {
-            background: #f1f5f9;
-            font-weight: 700;
-          }
-          .summary {
-            margin-top: 15px;
-            width: 100%;
-            border: 2px solid #1e40af;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 4px;
-          }
-          .summary td {
-            padding: 8px;
-            text-align: right;
-          }
-          .total-row {
-            background: #1e40af;
-            color: white;
-            font-weight: 700;
-          }
-          .footer {
-            margin-top: 20px;
-            font-size: 11px;
-            text-align: center;
-            font-weight: 500;
-            color: #64748b;
-          }
-          .invoice-info {
-            background: #f8fafc;
-            padding: 8px;
-            border-radius: 4px;
-            margin: 10px 0;
-          }
+        body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;   /* increased from 14px */
+        font-weight: 600;
+        line-height: 1.5;
+        width: 79mm;
+        margin: auto;
+    }
+      h1, h2, h3, p {
+      margin: 6px 0; /* slightly more spacing */
+    }
+     .header {
+     background: #1e40af;
+     color: #fff;
+     text-align: center;
+     font-size: 18px;   /* was 16px */
+     font-weight: 700;
+     padding: 10px 0;
+     border-radius: 4px;
+    }
+    .shop-info {
+    font-size: 14px;   /* was 12px */
+    margin: 15px 0;
+    text-align: center;
+    line-height: 1.4;
+    }
+   .customer {
+    margin: 12px 0;
+    font-size: 15px;   /* was 13px */
+    font-weight: 600;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 4px;
+   }
+   table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;   /* was 12px */
+    font-weight: 600;
+    margin: 10px 0;
+   }
+   th, td {
+    border: 1px solid #e2e8f0;
+    padding: 8px 6px;   /* more padding for clarity */
+    text-align: center;
+   }
+   th {
+    background: #f1f5f9;
+    font-weight: 700;
+   }
+   .summary {
+    margin-top: 15px;
+    width: 100%;
+    border: 2px solid #1e40af;
+    font-size: 15px;   /* was 13px */
+    font-weight: 600;
+    border-radius: 4px;
+   }
+   .summary td {
+    padding: 10px;
+    text-align: right;
+   }
+   .total-row {
+    background: #1e40af;
+    color: white;
+    font-weight: 700;
+   }
+   .footer {
+    margin-top: 20px;
+    font-size: 13px;   /* was 11px */
+    text-align: center;
+    font-weight: 500;
+    color: #64748b;
+   }
+   .invoice-info {
+    background: #f8fafc;
+    padding: 10px;
+    margin: 12px 0;
+    font-size: 14px;   /* make invoice info more readable */
+   }
+
         </style>
       </head>
       <body>
