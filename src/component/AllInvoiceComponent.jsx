@@ -196,7 +196,7 @@ export const AllInvoiceComponent = () => {
                       <strong>Phone:</strong> 03364214916, 03114572734
                     </p>
                     <p>
-                      <strong>License No:</strong> 490-B/GT/10/2016
+                      <strong>License No:</strong> 05-352-0065-028168M
                     </p>
                   </div>
                 </div>
