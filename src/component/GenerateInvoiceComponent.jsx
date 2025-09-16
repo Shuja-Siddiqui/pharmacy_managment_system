@@ -1191,21 +1191,37 @@ export const GenerateInvoiceComponent = () => {
   const [showInvoicePreview, setShowInvoicePreview] = useState(false);
   const editableRefs = useRef([]);
   const navigate = useNavigate();
-  const generateInvoicID = () => {
-    const timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
-    const objectId =
-      timestamp +
-      "xxxxxxxxxxxxxxxx".replace(/[x]/g, () =>
-        ((Math.random() * 16) | 0).toString(16)
-      );
-    return `INV-${objectId.substring(0, 12).toUpperCase()}`;
+
+  const getLastInvoice = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BASE_URL}/sale/last-invoice`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        const lastId = data?.data?.lastInvoiceId || "INV-0000";
+        // Extract number from lastId
+        const lastNumber = parseInt(lastId.split("-")[1] || "0", 10);
+        const newId = `INV-${(lastNumber + 1).toString().padStart(4, "0")}`;
+        console.log(newId);
+        setInvoiceId(newId);
+      } else {
+        throw new Error("Failed to get last invoice");
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to load invoice ID");
+      // fallback: start from INV-0001
+      setInvoiceId("INV-0001");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    const generateInvoiceId = generateInvoicID();
-    if (generateInvoiceId) {
-      setInvoiceId(generateInvoiceId);
-    }
+    getLastInvoice();
   }, []);
 
   const getProduct = async () => {
@@ -1364,174 +1380,179 @@ export const GenerateInvoiceComponent = () => {
 
     const printWindow = window.open("", "", "width=700,height=800");
     printWindow.document.write(`
-    <html>
-      <head>
-        <title>POS Pharmacy Invoice</title>
-        <style>
-        body {
+<html>
+  <head>
+    <title>POS Pharmacy Invoice</title>
+    <style>
+      body {
         font-family: Arial, sans-serif;
-        font-size: 16px;   /* increased from 14px */
+        font-size: 16px;
         font-weight: 600;
         line-height: 1.5;
         width: 79mm;
         margin: auto;
-    }
+      }
       h1, h2, h3, p {
-      margin: 6px 0; /* slightly more spacing */
-    }
-     .header {
-     background: #1e40af;
-     color: #fff;
-     text-align: center;
-     font-size: 18px;   /* was 16px */
-     font-weight: 700;
-     padding: 10px 0;
-     border-radius: 4px;
-    }
-    .shop-info {
-    font-size: 14px;   /* was 12px */
-    margin: 15px 0;
-    text-align: center;
-    line-height: 1.4;
-    }
-   .customer {
-    margin: 12px 0;
-    font-size: 15px;   /* was 13px */
-    font-weight: 600;
-    background: #f8fafc;
-    padding: 10px;
-    border-radius: 4px;
-   }
-   table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;   /* was 12px */
-    font-weight: 600;
-    margin: 10px 0;
-   }
-   th, td {
-    border: 1px solid #e2e8f0;
-    padding: 8px 6px;   /* more padding for clarity */
-    text-align: center;
-   }
-   th {
-    background: #f1f5f9;
-    font-weight: 700;
-   }
-   .summary {
-    margin-top: 15px;
-    width: 100%;
-    border: 2px solid #1e40af;
-    font-size: 15px;   /* was 13px */
-    font-weight: 600;
-    border-radius: 4px;
-   }
-   .summary td {
-    padding: 10px;
-    text-align: right;
-   }
-   .total-row {
-    background: #1e40af;
-    color: white;
-    font-weight: 700;
-   }
-   .footer {
-    margin-top: 20px;
-    font-size: 13px;   /* was 11px */
-    text-align: center;
-    font-weight: 500;
-    color: #64748b;
-   }
-   .invoice-info {
-    background: #f8fafc;
-    padding: 10px;
-    margin: 12px 0;
-    font-size: 14px;   /* make invoice info more readable */
-   }
+        margin: 6px 0;
+      }
+      .header {
+        background: #000000;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 10px 0;
+        border-radius: 4px;
+      }
+      .shop-info {
+        font-size: 14px;
+        margin: 15px 0;
+        text-align: center;
+        line-height: 1.4;
+      }
+      .customer {
+        margin: 12px 0;
+        font-size: 18px;
+        font-weight: 600;
+        background: #f8fafc;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .invoice-info {
+        background: #f8fafc;
+        padding: 10px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+      .row {
+        display: flex;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 6px 0;
+        align-items: center;
+      }
+      .header-row {
+        background: #f1f5f9;
+        font-weight: 700;
+      }
+      .cell {
+        text-align: center;
+        font-size: 14px;
+      }
+      .sr { width: 8%; }
+      .item { width: 40%; text-align: center; }
+      .items { width: 40%; text-align: left;white-space: normal;   /* allow wrapping */
+  word-wrap: break-word; /* break long words if needed */
+  overflow-wrap: anywhere; }
+      .rate { width: 17%; }
+      .qty { width: 10%; }
+      .amount { width: 25%; font-weight: 600; }
+      .summary {
+        margin-top: 15px;
+        border: 2px solid #1e40af;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #1e40af;
+      }
+      .summary-row:last-child {
+        border-bottom: none;
+      }
+      .total-row {
+        background: #000000;
+        color: white;
+        font-weight: 700;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Siddiqui Medical Store</div>
+    <div class="shop-info">
+      <p><strong>53- Gulberg III Near Sui Gas Office</strong></p>
+      <p>Guru Mangat Road, Opposite SNGPL Office</p>
+      <p>Lahore, Pakistan</p>
+      <p><strong>Phone:</strong> 03364214916, 03114572734</p>
+      <p><strong>License No:</strong> 05-352-0065-028168M</p>
+    </div>
 
-        </style>
-      </head>
-      <body>
-        <div class="header">Siddiqui Medical Store</div>
-        <div class="shop-info">
-          <p><strong>53- Gulberg III Near Sui Gas Office</strong></p>
-          <p>Guru Mangat Road, Opposite SNGPL Office</p>
-          <p>Lahore, Pakistan</p>
-          <p><strong>Phone:</strong> 03364214916, 03114572734</p>
-          <p><strong>License No:</strong> 05-352-0065-028168M</p>
-        </div>
-        
-        <div class="invoice-info">
-          <table style="border: none; margin: 0;">
-            <tr>
-              <td style="border: none; text-align: left; padding: 2px 0;"><strong>Invoice #:</strong></td>
-              <td style="border: none; text-align: right; padding: 2px 0;">${invoiceId}</td>
-            </tr>
-            <tr>
-              <td style="border: none; text-align: left; padding: 2px 0;"><strong>Date:</strong></td>
-              <td style="border: none; text-align: right; padding: 2px 0;">${new Date().toLocaleDateString()}</td>
-            </tr>
-            <tr>
-              <td style="border: none; text-align: left; padding: 2px 0;"><strong>Time:</strong></td>
-              <td style="border: none; text-align: right; padding: 2px 0;">${new Date().toLocaleTimeString()}</td>
-            </tr>
-          </table>
-        </div>
+    <div class="invoice-info">
+      <div class="row">
+        <div class="cell" style="flex:1; text-align:left;"><strong>Invoice #:</strong></div>
+        <div class="cell" style="flex:1; text-align:right;">${invoiceId}</div>
+      </div>
+      <div class="row">
+        <div class="cell" style="flex:1; text-align:left;"><strong>Date:</strong></div>
+        <div class="cell" style="flex:1; text-align:right;">${new Date().toLocaleDateString()}</div>
+      </div>
+      <div class="row">
+        <div class="cell" style="flex:1; text-align:left;"><strong>Time:</strong></div>
+        <div class="cell" style="flex:1; text-align:right;">${new Date().toLocaleTimeString()}</div>
+      </div>
+    </div>
 
-        <div class="customer">
-          <strong>Customer:</strong> ${customerName.toUpperCase()}
-        </div>
-        
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 8%;">Sr#</th>
-              <th style="width: 40%;">Item</th>
-              <th style="width: 17%;">Rate</th>
-              <th style="width: 10%;">Qty</th>
-              <th style="width: 25%;">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${allItem
-              .map(
-                (item, i) => `
-                <tr>
-                  <td>${i + 1}</td>
-                  <td style="text-align:left; font-size: 11px;">${item.name}${
-                  item.dosage ? ` (${item.dosage})` : ""
-                }${item.category ? ` (${item.category.name})` : ""}</td>
-                  <td>${item.price.toFixed(2)}</td>
-                  <td>${item.quantity}</td>
-                  <td><strong>${(item.price * item.quantity).toFixed(
-                    2
-                  )}</strong></td>
-                </tr>
-              `
-              )
-              .join("")}
-          </tbody>
-        </table>
-        
-        <table class="summary">
-          <tr>
-            <td style="text-align: left;"><strong>Subtotal:</strong></td>
-            <td><strong>Rs ${subtotal.toFixed(2)}</strong></td>
-          </tr>
-          <tr class="total-row">
-            <td style="text-align: left;"><strong>GRAND TOTAL:</strong></td>
-            <td><strong>Rs ${subtotal.toFixed(2)}</strong></td>
-          </tr>
-        </table>
-        
-        <div class="footer">
-          <p><strong>IMPORTANT:</strong> Fridge items, inhalers & loose medicines are non-returnable</p>
-          <p style="margin-top: 10px;">Thank you for your business!</p>
-          <p style="margin-top: 8px; font-size: 10px;">Software by ConsoleDot - Ph: 03321639988</p>
-        </div>
-      </body>
-    </html>
-  `);
+    <div class="customer">
+      <strong>Customer:</strong> ${customerName.toUpperCase()}
+    </div>
+
+    <!-- Items -->
+    <div>
+      <div class="row header-row">
+        <div class="cell sr">Sr#</div>
+        <div class="cell item">Item</div>
+        <div class="cell rate">Rate</div>
+        <div class="cell qty">Qty</div>
+        <div class="cell amount">Amount</div>
+      </div>
+      ${allItem
+        .map(
+          (item, i) => `
+          <div class="row">
+            <div class="cell sr">${i + 1}</div>
+            <div class="cell items">${item.name}${
+            item.dosage ? ` (${item.dosage})` : ""
+          }${item.category ? ` (${item.category.name})` : ""}</div>
+            <div class="cell rate">${item.price.toFixed(2)}</div>
+            <div class="cell qty">${item.quantity}</div>
+            <div class="cell amount">${(item.price * item.quantity).toFixed(
+              2
+            )}</div>
+          </div>
+        `
+        )
+        .join("")}
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <div class="summary-row">
+        <div><strong>Subtotal:</strong></div>
+        <div><strong>Rs ${subtotal.toFixed(2)}</strong></div>
+      </div>
+      <div class="summary-row total-row">
+        <div><strong>GRAND TOTAL:</strong></div>
+        <div><strong>Rs ${subtotal.toFixed(2)}</strong></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p style="margin-top: 14px; font-weight: 600"><strong>IMPORTANT:</strong> Fridge items, inhalers & loose medicines are non-returnable</p>
+      <p style="margin-top: 14px; font-weight: 600">Thank you for your business!</p>
+      <p style="margin-top: 8px; font-weight: 600; font-size: 14px;">Software by ConsoleDot - Ph: 03321639988</p>
+    </div>
+  </body>
+</html>
+`);
 
     printWindow.document.close();
     printWindow.print();
@@ -1569,10 +1590,7 @@ export const GenerateInvoiceComponent = () => {
         setSearchTerm("");
         toast.success("Invoice generated successfully!");
         getDailySaleReports();
-        const generateInvoiceId = generateInvoicID();
-        if (generateInvoiceId) {
-          setInvoiceId(generateInvoiceId);
-        }
+        getLastInvoice()
       })
       .catch((error) => {
         toast.error(error?.message);
