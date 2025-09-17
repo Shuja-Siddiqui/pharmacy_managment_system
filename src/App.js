@@ -10,21 +10,72 @@ import {
   SalesReportPage,
 } from "./pages";
 import { AllInvoiceComponent } from "./component";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/generateInvoice" element={<GenerateInvoice />} />
-        <Route path="/inventory" element={<InventoryPage />} />
-        <Route path="/return-inventory" element={<RetrunInventaoryPage />} />
-        <Route path="/sales-report" element={<SalesReportPage />} />
-        <Route path="/invoices" element={<AllInvoiceComponent />} />
-        <Route path="/create-user" element={<CreateUserPage />} />
-      </Routes>
-    </>
+    <Routes>
+      {/* Public route */}
+      <Route path="/login" element={<Login />} />
+
+      {/* Protected routes */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/generateInvoice"
+        element={
+          <ProtectedRoute>
+            <GenerateInvoice />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/inventory"
+        element={
+          <ProtectedRoute>
+            <InventoryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/return-inventory"
+        element={
+          <ProtectedRoute>
+            <RetrunInventaoryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales-report"
+        element={
+          <ProtectedRoute>
+            <SalesReportPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invoices"
+        element={
+          <ProtectedRoute>
+            <AllInvoiceComponent />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-user"
+        element={
+          <ProtectedRoute>
+            <CreateUserPage />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

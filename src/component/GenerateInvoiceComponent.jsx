@@ -1395,6 +1395,11 @@ export const GenerateInvoiceComponent = () => {
       h1, h2, h3, p {
         margin: 6px 0;
       }
+      .invoice-container {
+        border: 2px solid #000;
+        padding: 10px;
+        border-radius: 6px;
+      }
       .header {
         background: #000000;
         color: #fff;
@@ -1416,39 +1421,54 @@ export const GenerateInvoiceComponent = () => {
         font-weight: 600;
         background: #f8fafc;
         padding: 10px;
+        border: 2px solid #000;
         border-radius: 4px;
       }
       .invoice-info {
         background: #f8fafc;
-        padding: 10px;
         margin: 12px 0;
         font-size: 14px;
+        border-radius: 4px;
+      }
+      .invoice-row {
+        display: flex;
+        border: 2px solid #000;
+        align-items: center;
       }
       .row {
         display: flex;
-        border-bottom: 1px solid #e2e8f0;
-        padding: 6px 0;
+        border: 2px solid #000;
         align-items: center;
       }
       .header-row {
         background: #f1f5f9;
         font-weight: 700;
+        border: 2px solid #000;
+        border-bottom :0px
+      }
+      .cell-h {
+        text-align: center;
+        font-size: 14px;
+        border-right: 2px solid #000;
+        padding: 4px;
       }
       .cell {
         text-align: center;
         font-size: 14px;
+        padding: 4px;
+      }
+      .cell:last-child {
+        border-right: none;
       }
       .sr { width: 8%; }
       .item { width: 40%; text-align: center; }
-      .items { width: 40%; text-align: left;white-space: normal;   /* allow wrapping */
-  word-wrap: break-word; /* break long words if needed */
-  overflow-wrap: anywhere; }
+      .items { width: 40%; text-align: left; white-space: normal; word-wrap: break-word; overflow-wrap: anywhere; }
       .rate { width: 17%; }
       .qty { width: 10%; }
       .amount { width: 25%; font-weight: 600; }
       .summary {
         margin-top: 15px;
-        border: 2px solid #1e40af;
+        border: 2px solid #000000;
         font-size: 15px;
         font-weight: 600;
         border-radius: 4px;
@@ -1458,7 +1478,7 @@ export const GenerateInvoiceComponent = () => {
         display: flex;
         justify-content: space-between;
         padding: 10px;
-        border-bottom: 1px solid #1e40af;
+        border-bottom: 2px solid #0000;
       }
       .summary-row:last-child {
         border-bottom: none;
@@ -1487,15 +1507,15 @@ export const GenerateInvoiceComponent = () => {
     </div>
 
     <div class="invoice-info">
-      <div class="row">
+      <div class="invoice-row" style="border-bottom:0px">
         <div class="cell" style="flex:1; text-align:left;"><strong>Invoice #:</strong></div>
         <div class="cell" style="flex:1; text-align:right;">${invoiceId}</div>
       </div>
-      <div class="row">
+      <div class="invoice-row" style="border-bottom:0px">
         <div class="cell" style="flex:1; text-align:left;"><strong>Date:</strong></div>
         <div class="cell" style="flex:1; text-align:right;">${new Date().toLocaleDateString()}</div>
       </div>
-      <div class="row">
+      <div class="invoice-row" >
         <div class="cell" style="flex:1; text-align:left;"><strong>Time:</strong></div>
         <div class="cell" style="flex:1; text-align:right;">${new Date().toLocaleTimeString()}</div>
       </div>
@@ -1508,11 +1528,11 @@ export const GenerateInvoiceComponent = () => {
     <!-- Items -->
     <div>
       <div class="row header-row">
-        <div class="cell sr">Sr#</div>
-        <div class="cell item">Item</div>
-        <div class="cell rate">Rate</div>
-        <div class="cell qty">Qty</div>
-        <div class="cell amount">Amount</div>
+        <div class="cell-h sr">Sr#</div>
+        <div class="cell-h item">Item</div>
+        <div class="cell-h rate">Rate</div>
+        <div class="cell-h qty">Qty</div>
+        <div class="cell-h amount" style="border-right:0px">Amount</div>
       </div>
       ${allItem
         .map(
