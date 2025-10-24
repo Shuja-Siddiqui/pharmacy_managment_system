@@ -926,7 +926,10 @@ export const RetrunInventoryComponent = () => {
       : item?.product?.name?.toLowerCase().includes(searchterm.toLowerCase())
   );
 
-  console.log(filteredReturnProducts);
+  const Capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
@@ -992,7 +995,7 @@ export const RetrunInventoryComponent = () => {
                       type="text"
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       placeholder="Search medicines by name..."
-                      value={productSearchterm}
+                      value={Capitalize(productSearchterm)||""}
                       onChange={handleSearchChange}
                     />
                   </div>
@@ -1020,7 +1023,7 @@ export const RetrunInventoryComponent = () => {
                                   <div className="flex items-center gap-2">
                                     <Package className="h-4 w-4 text-blue-600" />
                                     <h4 className="font-medium text-gray-900">
-                                      {product.name}
+                                      {Capitalize(product.name)}
                                     </h4>
                                   </div>
                                   <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
@@ -1198,7 +1201,7 @@ export const RetrunInventoryComponent = () => {
                             <Pill className="h-4 w-4 text-blue-600" />
                           </div>
                           <span className="font-medium text-gray-900">
-                            {item?.product?.name}
+                            {Capitalize(item?.product?.name)}
                           </span>
                         </div>
                       </td>
@@ -1486,7 +1489,7 @@ export const RetrunInventoryComponent = () => {
                 <label className="font-bold text-xl text-center">
                   Item Name :
                 </label>
-                <p>{selectItem?.product?.name}</p>
+                <p>{Capitalize(selectItem?.product?.name)}</p>
               </div>
               <div className="flex gap-1 items-baseline w-full ">
                 <label className="font-bold text-xl text-center">

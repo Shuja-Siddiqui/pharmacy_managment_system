@@ -20,11 +20,11 @@ import {
   Calendar,
   X,
   Check,
-  Pill
+  Pill,
 } from "lucide-react";
 import config from "../api/config";
 
-const BASE_URL = config.BASE_URL
+const BASE_URL = config.BASE_URL;
 
 export const InventoryComponent = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ export const InventoryComponent = () => {
     price: "",
     category: "",
     stock: "",
-    dosage: ""
+    dosage: "",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [product, setProduct] = useState([]);
@@ -47,7 +47,7 @@ export const InventoryComponent = () => {
     totalProducts: 0,
     totalValue: 0,
     lowStock: 0,
-    categories: 0
+    categories: 0,
   });
   const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ export const InventoryComponent = () => {
 
     const token = localStorage.getItem("token");
     setIsLoading(true);
-    
+
     try {
       const response = await fetch(`${BASE_URL}/category`, {
         method: "POST",
@@ -67,7 +67,7 @@ export const InventoryComponent = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name: categoryName }),
+        body: JSON.stringify({ name: Capitalize(categoryName) }),
       });
 
       if (response.status === 200 || response.status === 201) {
@@ -117,13 +117,17 @@ export const InventoryComponent = () => {
         const data = await response.json();
         const products = data?.data || [];
         setProduct(products);
-        
+
         // Calculate stats
         const totalProducts = products.length;
-        const totalValue = products.reduce((sum, item) => sum + (item.price * item.stock), 0);
-        const lowStock = products.filter(item => item.stock < 10).length;
-        const categories = new Set(products.map(item => item.category?.name)).size;
-        
+        const totalValue = products.reduce(
+          (sum, item) => sum + item.price * item.stock,
+          0
+        );
+        const lowStock = products.filter((item) => item.stock < 10).length;
+        const categories = new Set(products.map((item) => item.category?.name))
+          .size;
+
         setStats({ totalProducts, totalValue, lowStock, categories });
       }
     } catch (error) {
@@ -146,7 +150,7 @@ export const InventoryComponent = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          name: formData.name,
+          name: Capitalize(formData?.name),
           price: parseFloat(formData.price),
           category: formData.category,
           stock: parseInt(formData.stock),
@@ -185,14 +189,17 @@ export const InventoryComponent = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${BASE_URL}/product/by-id/${selectItem._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ updatedData: rest }),
-      });
+      const response = await fetch(
+        `${BASE_URL}/product/by-id/${selectItem._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ updatedData: rest }),
+        }
+      );
 
       if (response.status === 200 || response.status === 201) {
         toast.success("Product updated successfully");
@@ -213,13 +220,16 @@ export const InventoryComponent = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${BASE_URL}/product/by-id/${selectItem._id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_URL}/product/by-id/${selectItem._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 200 || response.status === 201) {
         const data = await response.json();
@@ -245,6 +255,10 @@ export const InventoryComponent = () => {
     item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const Capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
@@ -254,19 +268,23 @@ export const InventoryComponent = () => {
             <div className="flex items-center gap-4">
               <button
                 className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="hidden sm:inline font-medium">Back</span>
               </button>
-              
+
               <div className="flex items-center gap-3">
                 <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
                   <Package className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Inventory Management</h1>
-                  <p className="text-sm text-gray-600 hidden sm:block">Manage your pharmacy inventory</p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    Inventory Management
+                  </h1>
+                  <p className="text-sm text-gray-600 hidden sm:block">
+                    Manage your pharmacy inventory
+                  </p>
                 </div>
               </div>
             </div>
@@ -339,25 +357,33 @@ export const InventoryComponent = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex items-center gap-2 mb-6">
             <Plus className="h-5 w-5 text-blue-600" />
-            <h3 className="text-lg font-semibold text-gray-900">Add New Product</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Add New Product
+            </h3>
           </div>
 
           <form onSubmit={addProduct}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Medicine Name *</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Medicine Name *
+                </label>
                 <input
                   type="text"
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="Enter medicine name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Stock Quantity *</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Stock Quantity *
+                </label>
                 <input
                   type="number"
                   required
@@ -365,12 +391,16 @@ export const InventoryComponent = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="Enter stock quantity"
                   value={formData.stock}
-                  onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, stock: e.target.value })
+                  }
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Price (Rs) *</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Price (Rs) *
+                </label>
                 <input
                   type="number"
                   required
@@ -379,33 +409,43 @@ export const InventoryComponent = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="Enter price"
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Dosage</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Dosage
+                </label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="Enter dosage (e.g., 500mg)"
                   value={formData.dosage}
-                  onChange={(e) => setFormData({ ...formData, dosage: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dosage: e.target.value })
+                  }
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Category *</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Category *
+                </label>
                 <select
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
                 >
                   <option value="">Choose Category</option>
                   {categoryData?.map((category) => (
                     <option key={category._id} value={category._id}>
-                      {category.name}
+                      {Capitalize(category.name)}
                     </option>
                   ))}
                 </select>
@@ -461,7 +501,9 @@ export const InventoryComponent = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Product Inventory</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Product Inventory
+              </h3>
               <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
                 {filteredProducts?.length || 0} products
               </span>
@@ -478,41 +520,70 @@ export const InventoryComponent = () => {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Medicine</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Price</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Dosage</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Stock</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Category</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Total Value</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Date Added</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Medicine
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Price
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Dosage
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Stock
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Category
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Total Value
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Date Added
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredProducts.map((item) => (
-                    <tr key={item._id} className="hover:bg-gray-50 transition-colors">
+                    <tr
+                      key={item._id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                             <Pill className="h-4 w-4 text-blue-600" />
                           </div>
-                          <span className="font-medium text-gray-900">{item.name}</span>
+                          <span className="font-medium text-gray-900">
+                            {Capitalize(item.name)}
+                          </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-900">Rs {item.price?.toFixed(2)}</td>
-                      <td className="px-6 py-4 text-gray-600">{item.dosage || 'N/A'}</td>
+                      <td className="px-6 py-4 text-gray-900">
+                        Rs {item.price?.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-gray-600">
+                        {item.dosage || "N/A"}
+                      </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          item.stock < 10 
-                            ? 'bg-red-100 text-red-800' 
-                            : item.stock < 50 
-                            ? 'bg-yellow-100 text-yellow-800' 
-                            : 'bg-green-100 text-green-800'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            item.stock < 10
+                              ? "bg-red-100 text-red-800"
+                              : item.stock < 50
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
+                        >
                           {item.stock}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-600">{item.category?.name || 'N/A'}</td>
+                      <td className="px-6 py-4 text-gray-600">
+                        {item.category?.name || "N/A"}
+                      </td>
                       <td className="px-6 py-4 font-semibold text-gray-900">
                         Rs {(item.price * item.stock).toFixed(2)}
                       </td>
@@ -551,8 +622,12 @@ export const InventoryComponent = () => {
           ) : (
             <div className="px-6 py-12 text-center">
               <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-              <p className="text-gray-500">Add your first product to get started</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No products found
+              </h3>
+              <p className="text-gray-500">
+                Add your first product to get started
+              </p>
             </div>
           )}
         </div>
@@ -563,7 +638,9 @@ export const InventoryComponent = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Add New Category</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Add New Category
+              </h3>
               <button
                 onClick={() => setIsModal(false)}
                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
@@ -574,7 +651,9 @@ export const InventoryComponent = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Category Name
+                </label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
@@ -619,7 +698,9 @@ export const InventoryComponent = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Update Product</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Update Product
+              </h3>
               <button
                 onClick={() => setIsUpdateModal(false)}
                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
@@ -631,40 +712,57 @@ export const InventoryComponent = () => {
             <form onSubmit={handleUpdate}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Medicine Name</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Medicine Name
+                  </label>
                   <input
                     type="text"
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     value={selectItem.name}
-                    onChange={(e) => setSelectedItem({ ...selectItem, name: e.target.value })}
+                    onChange={(e) =>
+                      setSelectedItem({ ...selectItem, name: e.target.value })
+                    }
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Dosage</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Dosage
+                  </label>
                   <input
                     type="text"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    value={selectItem.dosage || ''}
-                    onChange={(e) => setSelectedItem({ ...selectItem, dosage: e.target.value })}
+                    value={selectItem.dosage || ""}
+                    onChange={(e) =>
+                      setSelectedItem({ ...selectItem, dosage: e.target.value })
+                    }
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Stock</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Stock
+                  </label>
                   <input
                     type="number"
                     required
                     min="0"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     value={selectItem.stock}
-                    onChange={(e) => setSelectedItem({ ...selectItem, stock: parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setSelectedItem({
+                        ...selectItem,
+                        stock: parseInt(e.target.value),
+                      })
+                    }
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Price</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Price
+                  </label>
                   <input
                     type="number"
                     required
@@ -672,17 +770,29 @@ export const InventoryComponent = () => {
                     step="0.01"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     value={selectItem.price}
-                    onChange={(e) => setSelectedItem({ ...selectItem, price: parseFloat(e.target.value) })}
+                    onChange={(e) =>
+                      setSelectedItem({
+                        ...selectItem,
+                        price: parseFloat(e.target.value),
+                      })
+                    }
                   />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">Category</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Category
+                  </label>
                   <select
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     value={selectItem.category?._id || selectItem.category}
-                    onChange={(e) => setSelectedItem({ ...selectItem, category: e.target.value })}
+                    onChange={(e) =>
+                      setSelectedItem({
+                        ...selectItem,
+                        category: e.target.value,
+                      })
+                    }
                   >
                     <option value="">Choose Category</option>
                     {categoryData?.map((category) => (
@@ -733,12 +843,17 @@ export const InventoryComponent = () => {
               <div className="w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
                 <Trash2 className="w-6 h-6 text-red-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Product</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Delete Product
+              </h3>
               <p className="text-gray-600 mb-2">
-                Are you sure you want to delete <strong>{selectItem.name}</strong>?
+                Are you sure you want to delete{" "}
+                <strong>{selectItem.name}</strong>?
               </p>
-              <p className="text-sm text-gray-500 mb-6">This action cannot be undone.</p>
-              
+              <p className="text-sm text-gray-500 mb-6">
+                This action cannot be undone.
+              </p>
+
               <div className="flex gap-3">
                 <button
                   onClick={() => setIsDeleteModal(false)}

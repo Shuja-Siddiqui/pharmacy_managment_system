@@ -296,6 +296,10 @@ export const SalesReportComponent = () => {
     item?.product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const Capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
@@ -385,16 +389,14 @@ export const SalesReportComponent = () => {
               </div>
             </div>
           </div>
-        
+
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Total  Amount
+                  Total Amount
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {netAmount}
-                </p>
+                <p className="text-2xl font-bold text-gray-900">{netAmount}</p>
               </div>
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                 <DollarSign className="h-5 w-5 text-green-600" />
@@ -498,7 +500,7 @@ export const SalesReportComponent = () => {
                             <Pill className="h-4 w-4 text-blue-600" />
                           </div>
                           <span className="font-medium text-gray-900">
-                            {item?.product?.name}
+                            {Capitalize(item?.product?.name)}
                           </span>
                         </div>
                       </td>

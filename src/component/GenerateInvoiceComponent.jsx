@@ -1189,8 +1189,17 @@ export const GenerateInvoiceComponent = () => {
   const [dailySales, setDailySales] = useState({ totalSales: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [showInvoicePreview, setShowInvoicePreview] = useState(false);
+  const [discountType, setDiscountType] = useState("percentage"); // "percentage" or "amount"
+  const [discountValue, setDiscountValue] = useState(0);
+
   const editableRefs = useRef([]);
   const navigate = useNavigate();
+  const discountAmount =
+    discountType === "percentage"
+      ? (totalPrice * discountValue) / 100
+      : discountValue;
+
+  const finalTotal = Math.max(totalPrice - discountAmount, 0);
 
   const getLastInvoice = async () => {
     try {
@@ -1539,7 +1548,7 @@ export const GenerateInvoiceComponent = () => {
           (item, i) => `
           <div class="row">
             <div class="cell sr">${i + 1}</div>
-            <div class="cell items">${item.name}${
+            <div class="cell items">${Capitalize(item.name)}${
             item.dosage ? ` (${item.dosage})` : ""
           }${item.category ? ` (${item.category.name})` : ""}</div>
             <div class="cell rate">${item.price.toFixed(2)}</div>
@@ -1559,9 +1568,17 @@ export const GenerateInvoiceComponent = () => {
         <div><strong>Subtotal:</strong></div>
         <div><strong>Rs ${subtotal.toFixed(2)}</strong></div>
       </div>
+      <div class="summary-row">
+        <div><strong>Discunt:</strong></div>
+        <div><strong> ${
+          discountType === "percentage"
+            ? ` ${discountValue}% (Rs ${discountAmount.toFixed(2)})`
+            : `Rs ${discountAmount.toFixed(2)}`
+        }</strong></div>
+      </div>
       <div class="summary-row total-row">
         <div><strong>GRAND TOTAL:</strong></div>
-        <div><strong>Rs ${subtotal.toFixed(2)}</strong></div>
+        <div><strong>Rs ${finalTotal.toFixed(2)}</strong></div>
       </div>
     </div>
 
@@ -1590,6 +1607,8 @@ export const GenerateInvoiceComponent = () => {
         products: allItem,
         customerName: customerName,
         invoiceId: invoiceId,
+        discount: discountAmount,
+        discountType: discountType,
       }),
     })
       .then((response) => {
@@ -1610,11 +1629,15 @@ export const GenerateInvoiceComponent = () => {
         setSearchTerm("");
         toast.success("Invoice generated successfully!");
         getDailySaleReports();
-        getLastInvoice()
+        getLastInvoice();
       })
       .catch((error) => {
         toast.error(error?.message);
       });
+  };
+
+  const Capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
   };
   return (
     <div className="min-h-screen  w-full bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -1679,7 +1702,7 @@ export const GenerateInvoiceComponent = () => {
                     type="text"
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Search medicines by name..."
-                    value={searchTerm}
+                    value={Capitalize(searchTerm) || ""}
                     onChange={handleSearchChange}
                   />
                 </div>
@@ -1705,7 +1728,7 @@ export const GenerateInvoiceComponent = () => {
                                 <div className="flex items-center gap-2">
                                   <Package className="h-4 w-4 text-blue-600" />
                                   <h4 className="font-medium text-gray-900">
-                                    {product.name}
+                                    {Capitalize(product.name)}
                                   </h4>
                                 </div>
                                 <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
@@ -1844,7 +1867,7 @@ export const GenerateInvoiceComponent = () => {
                         <td className="px-6 py-4">
                           <div>
                             <div className="font-medium text-gray-900">
-                              {item.name}
+                              {Capitalize(item.name)}
                             </div>
                             <div className="flex gap-2">
                               {item.dosage && (
@@ -1917,6 +1940,46 @@ export const GenerateInvoiceComponent = () => {
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="flex flex-col  justify-between items-start lg:items-center gap-6">
+              {/* Discount Section */}
+              <div className="mt-4 w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Discount
+                </label>
+                <div className="flex items-center gap-2 w-full">
+                  <input
+                    type="number"
+                    min="0"
+                    value={discountValue}
+                    onChange={(e) => setDiscountValue(Number(e.target.value))}
+                    className=" px-3 w-3/4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-right"
+                    placeholder="0"
+                  />
+                  <select
+                    value={discountType}
+                    onChange={(e) => setDiscountType(e.target.value)}
+                    className="border w-1/4 border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="percentage">%</option>
+                    <option value="amount">Rs</option>
+                  </select>
+                </div>
+
+                <div className="mt-2 text-sm text-gray-600">
+                  {discountType === "percentage"
+                    ? `Discount: ${discountValue}% (Rs ${discountAmount.toFixed(
+                        2
+                      )})`
+                    : `Discount: Rs ${discountAmount.toFixed(2)}`}
+                </div>
+
+                {/* <div className="mt-1 text-lg font-semibold text-gray-900">
+                  Final Total:{" "}
+                  <span className="text-blue-600">
+                    Rs {finalTotal.toFixed(2)}
+                  </span>
+                </div> */}
+              </div>
+
               {/* Total Summary */}
               <div className="flex items-center gap-6">
                 <div className="text-center lg:text-left">
@@ -1929,7 +1992,7 @@ export const GenerateInvoiceComponent = () => {
                 <div className="text-center lg:text-left">
                   <p className="text-sm text-gray-600 mb-1">Total Amount</p>
                   <p className="text-3xl font-bold text-blue-600">
-                    Rs {totalPrice.toLocaleString()}
+                    Rs {finalTotal.toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -2127,7 +2190,7 @@ export const GenerateInvoiceComponent = () => {
                             {i + 1}
                           </td>
                           <td className="border border-gray-300 p-2">
-                            {item.name}
+                            {Capitalize(item?.name)}
                             {item.dosage && (
                               <span className="text-gray-500">
                                 {" "}
@@ -2159,10 +2222,20 @@ export const GenerateInvoiceComponent = () => {
                         Rs {totalPrice.toFixed(2)}
                       </td>
                     </tr>
+                    <tr>
+                      <td className="p-3 text-left font-semibold">Discount:</td>
+                      <td className="p-3 text-right font-semibold">
+                        {discountType === "percentage"
+                          ? ` ${discountValue}% (Rs ${discountAmount.toFixed(
+                              2
+                            )})`
+                          : ` Rs ${discountAmount.toFixed(2)}`}
+                      </td>
+                    </tr>
                     <tr className="bg-blue-600 text-white">
                       <td className="p-3 text-left font-bold">GRAND TOTAL:</td>
                       <td className="p-3 text-right font-bold">
-                        Rs {totalPrice.toFixed(2)}
+                        Rs {finalTotal.toFixed(2)}
                       </td>
                     </tr>
                   </table>

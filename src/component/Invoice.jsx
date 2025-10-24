@@ -23,19 +23,22 @@ const printStyles = `
 function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
   const printInvoice = () => {
     // Inject print styles
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = printStyles;
     document.head.appendChild(style);
-    
+
     window.print();
-    
+
     // Remove the style after printing
     setTimeout(() => {
       document.head.removeChild(style);
     }, 1000);
   };
   const today = new Date().toISOString();
-  console.log(today);
+
+  const Capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4 print:bg-transparent print:p-0 print:fixed print:inset-0 print:z-auto">
@@ -80,7 +83,7 @@ function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
           </div>
           <div className="text-center text-sm tracking-wider  font-bold">
             <p>
-              53- Gulberg III Near Sui Gas Office Guru <br /> 
+              53- Gulberg III Near Sui Gas Office Guru <br />
               Mangat Road Opposite SNGPL Office Lahore
             </p>
             <p>Ph# 03364214916</p>
@@ -115,7 +118,7 @@ function Invoice({ items, total, customerInfo, onClose, invoiceNumber }) {
               {items.map((item, index) => (
                 <tr key={index} className="border-b">
                   <td className="py-2">
-                    <div>{item.name}</div>
+                    <div>{Capitalize(item?.name)}</div>
                     <div className="text-sm text-gray-600">{item.dosage}</div>
                   </td>
                   <td className="text-center py-2">{item.quantity}</td>
