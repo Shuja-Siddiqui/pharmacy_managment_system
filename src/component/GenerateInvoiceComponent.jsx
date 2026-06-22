@@ -1295,8 +1295,19 @@ export const GenerateInvoiceComponent = () => {
     }
   };
 
+  const getProductStock = (productId) => {
+    const foundProduct = product.find((p) => p._id === productId);
+    return foundProduct?.stock ?? 0;
+  };
+
   const addItem = (selectedProduct) => {
     if (selectedProduct?._id && quantity > 0 && selectedProduct?.price > 0) {
+      if (!selectedProduct.stock || selectedProduct.stock <= 0) {
+        toast.error(
+          `${Capitalize(selectedProduct.name)} is out of stock and cannot be added`
+        );
+        return;
+      }
       // Check if item already exists
       const existingItemIndex = allItem.findIndex(
         (item) => item.id === selectedProduct._id
@@ -1379,6 +1390,21 @@ export const GenerateInvoiceComponent = () => {
 
     if (!customerName.trim()) {
       toast.error("Please enter customer name");
+      return;
+    }
+
+    const insufficientStockItems = allItem.filter(
+      (item) => item.quantity > getProductStock(item.id)
+    );
+
+    if (insufficientStockItems.length > 0) {
+      const stockMessage = insufficientStockItems
+        .map(
+          (item) =>
+            `${Capitalize(item.name)} (requested: ${item.quantity}, available: ${getProductStock(item.id)})`
+        )
+        .join(", ");
+      toast.error(`Insufficient stock: ${stockMessage}`);
       return;
     }
 
